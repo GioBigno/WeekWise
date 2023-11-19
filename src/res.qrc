@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/Monocraft.ttf</file>
+    </qresource>
+</RCC>
