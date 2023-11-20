@@ -4,18 +4,14 @@ import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
 ApplicationWindow {
-    width: 1000
-    height: 600
+    id: app
+    width: screen.width
+    height: screen.height
     visible: true
     title: qsTr("Week Planner")
 
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet
-
-    Image{
-        id: image
-        source: "qrc:/fonts/gameoflife.png"
-    }
 
     FontLoader {
         id: customFont

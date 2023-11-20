@@ -1,5 +1,9 @@
 <RCC>
-    <qresource prefix="/">
-        <file>Main.qml</file>
+    <qresource prefix="/qml">
+        <file alias="Home.qml">qml/Home.qml</file>
+        <file alias="Main.qml">qml/Main.qml</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>
     </qresource>
 </RCC>

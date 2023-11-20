@@ -10,12 +10,15 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Qml)
 
 qt_standard_project_setup()
 
-qt_add_executable(WeekWise
+set(SOURCES
     src/main.cpp
+)
 
+qt_add_resources(SOURCES
     src/res.qrc
 )
 
+qt_add_executable(WeekWise ${SOURCES})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

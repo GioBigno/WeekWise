@@ -13,26 +13,40 @@ Item {
 
         RoundButton {
 
+            implicitWidth: 200
+            implicitHeight: 200
+
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft
-            Layout.margins: 100
+            Layout.rightMargin: 50
+            Layout.topMargin: 100
+            Layout.bottomMargin: 100
+            Layout.leftMargin: 100
             radius: 5
 
             text: "Week"
-            font.pixelSize: 30
+            font.pixelSize: Math.min(width, height)/6
+            font.family: customFont.name
         }
 
         RoundButton {
 
+            implicitWidth: 200
+            implicitHeight: 200
+
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft
-            Layout.margins: 100
+            Layout.rightMargin: 100
+            Layout.topMargin: 100
+            Layout.bottomMargin: 100
+            Layout.leftMargin: 50
             radius: 5
 
             text: "Stats"
-            font.pixelSize: 30
+            font.pixelSize: Math.min(width, height)/6
+            font.family: customFont.name
         }
     }
 
