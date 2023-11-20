@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/Monocraft.ttf</file>
+        <file>fonts/gameoflife.png</file>
     </qresource>
 </RCC>

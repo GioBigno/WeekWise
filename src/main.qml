@@ -12,6 +12,11 @@ ApplicationWindow {
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet
 
+    Image{
+        id: image
+        source: "qrc:/fonts/gameoflife.png"
+    }
+
     FontLoader {
         id: customFont
         source: "qrc:/fonts/Monocraft.ttf"

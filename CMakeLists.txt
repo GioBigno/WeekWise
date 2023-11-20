@@ -16,7 +16,8 @@ qt_add_qml_module(appWeekPlanner
     VERSION 1.0
     QML_FILES src/main.qml
     QML_FILES src/Home.qml
-    RESOURCES src/res.qrc
+
+    RESOURCES res/res.qrc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
