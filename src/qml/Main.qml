@@ -5,10 +5,10 @@ import QtQuick.Controls.Universal 2.12
 
 ApplicationWindow {
     id: app
-    width: screen.width
-    height: screen.height
+    width: screen.width/2
+    height: screen.height/2
     visible: true
-    title: qsTr("Week Planner")
+    title: qsTr("WeekWise")
 
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet

@@ -38,13 +38,32 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft
-            Layout.rightMargin: 100
+            Layout.rightMargin: 50
             Layout.topMargin: 100
             Layout.bottomMargin: 100
             Layout.leftMargin: 50
             radius: 5
 
             text: "Stats"
+            font.pixelSize: Math.min(width, height)/6
+            font.family: customFont.name
+        }
+
+        RoundButton {
+
+            implicitWidth: 200
+            implicitHeight: 200
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignLeft
+            Layout.rightMargin: 100
+            Layout.topMargin: 100
+            Layout.bottomMargin: 100
+            Layout.leftMargin: 50
+            radius: 5
+
+            text: "Manage"
             font.pixelSize: Math.min(width, height)/6
             font.family: customFont.name
         }
