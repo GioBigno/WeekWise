@@ -12,6 +12,7 @@ ApplicationWindow {
 
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet
+    Universal.foreground: Universal.Brown
 
     FontLoader {
         id: customFont
@@ -39,6 +40,11 @@ ApplicationWindow {
     Component{
         id: homeComponent
         Home{}
+    }
+
+    Component{
+        id: weekViewComponent
+        WeekView{}
     }
 
 }

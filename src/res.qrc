@@ -2,6 +2,7 @@
     <qresource prefix="/qml">
         <file alias="Home.qml">qml/Home.qml</file>
         <file alias="Main.qml">qml/Main.qml</file>
+        <file alias="WeekView.qml">qml/WeekView.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>
