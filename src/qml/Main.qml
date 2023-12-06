@@ -13,6 +13,7 @@ ApplicationWindow {
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet
     Universal.foreground: Universal.Brown
+    Universal.background: "black"
 
     FontLoader {
         id: customFont
