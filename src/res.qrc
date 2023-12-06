@@ -6,5 +6,6 @@
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>
+        <file alias="font.ttf">fonts/font.ttf</file>
     </qresource>
 </RCC>

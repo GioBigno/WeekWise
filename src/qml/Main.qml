@@ -16,7 +16,7 @@ ApplicationWindow {
 
     FontLoader {
         id: customFont
-        source: "qrc:/fonts/Monocraft.ttf"
+        source: "qrc:/fonts/font.ttf"
     }
 
     StackView {
