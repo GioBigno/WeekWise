@@ -12,7 +12,7 @@ ApplicationWindow {
 
     Universal.theme: Universal.Dark
     Universal.accent: Universal.Violet
-    Universal.foreground: Universal.Brown
+    Universal.foreground: Universal.Steel
     Universal.background: "black"
 
     FontLoader {
