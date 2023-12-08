@@ -6,6 +6,8 @@ import QtQuick.Controls.Universal 2.12
 Item{
     Calendar{
         anchors.fill: parent
-        width: parent.width / 2
+        width: parent.width
+
+        currentDay: new Date()
     }
 }
