@@ -10,7 +10,8 @@ CREATE TABLE WeeklySchedule (
 
 CREATE TABLE MacroAreas (
     MacroAreaID SERIAL PRIMARY KEY,
-    MacroAreaName VARCHAR(255) UNIQUE NOT NULL
+    MacroAreaName VARCHAR(255) UNIQUE NOT NULL,
+    Color INT UNIQUE NOT NULL
 );
 
 CREATE TABLE Activities (
