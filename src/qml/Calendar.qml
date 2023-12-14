@@ -10,14 +10,25 @@ Item {
     property int startTime: 7
     property int numHours: 16
     required property date currentDay
-    property date firstDay: firstDayOfTheWeek()
+    property date firstDay: firstDayOfTheWeek(currentDay)
 
-    function firstDayOfTheWeek(){
-        const weekday = currentDay.getDay()
-        const offset = (weekday - 1) % 7
-        const firstDayOfWeek = currentDay
-        firstDayOfWeek.setDate(currentDay.getDate() - offset)
-        return firstDayOfWeek
+    function firstDayOfTheWeek(day){
+
+        var d = day
+        var weekday = d.getDay()
+        var diff = d.getDate() - weekday + 1
+        return new Date(d.setDate(diff))
+    }
+
+    function nextWeek(day){
+
+        var d = day
+        return new Date(d.getTime() + 7 * 24 * 60 * 60 * 1000);
+    }
+
+    function prevWeek(day){
+        var d = day
+        return new Date(d.getTime() - 7 * 24 * 60 * 60 * 1000);
     }
 
 
@@ -76,7 +87,7 @@ Item {
                 Layout.columnSpan: 1
 
                 color: model.index+1 === currentDay.getDay() ? Universal.accent : Universal.foreground
-                text: model.day.substring(0,3)
+                text: model.day.substring(0,3) + "  " + (firstDay.getDate() + model.index)
 
                 font.pixelSize: 30
                 font.family: customFont.name
@@ -96,6 +107,9 @@ Item {
                     Layout.column: 0
                     Layout.row: model.index + 1
                     Layout.columnSpan: 1
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
 
                     color: Universal.foreground
                     text: (model.index + startTime) + ":00"
@@ -112,9 +126,17 @@ Item {
 
             Button{
                 text: "<"
+
+                onClicked: {
+                    firstDay = prevWeek(firstDay)
+                }
             }
             Button{
                 text: ">"
+
+                onClicked: {
+                    firstDay = nextWeek(firstDay)
+                }
             }
         }
     }
