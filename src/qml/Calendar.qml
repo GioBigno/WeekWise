@@ -11,6 +11,8 @@ Item {
     property int numHours: 16
     required property date currentDay
     property date firstDay: firstDayOfTheWeek(currentDay)
+    property int popupPosX: 0
+    property int popupPosy: 0
 
     function firstDayOfTheWeek(day){
 
@@ -31,6 +33,23 @@ Item {
         return new Date(d.getTime() - 7 * 24 * 60 * 60 * 1000);
     }
 
+    function openPopup(mouseX, mouseY){
+
+
+        if(mouseX + popup.width > parent.width){
+            mouseX -= popup.width
+        }
+
+        if(mouseY + popup.height > parent.height){
+            mouseY -= popup.height
+        }
+
+        popupPosX = mouseX
+        popupPosy = mouseY
+
+        popup.open()
+    }
+
 
     ListModel{
         id: daysOfTheWeek
@@ -41,6 +60,17 @@ Item {
         ListElement {day: qsTr("Venerdi")}
         ListElement {day: qsTr("Sabato")}
         ListElement {day: qsTr("Domenica")}
+    }
+
+    Popup {
+        id: popup
+        x: popupPosX
+        y: popupPosy
+        width: 200
+        height: 200
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     }
 
     GridLayout{
@@ -58,6 +88,7 @@ Item {
             model: numHours*7
 
             Rectangle{
+                id: rect
                 color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -70,9 +101,8 @@ Item {
                 MouseArea{
                     anchors.fill: parent
 
-                    onClicked: {
-                        console.log("day: " + daysOfTheWeek.get(model.index % 7).day + ", time: " + ((model.index % numHours) + startTime))
-                        console.log("date: " + firstDay)
+                    onClicked: (mouse) => {
+                        openPopup(rect.x + mouse.x, rect.y + mouse.y)
                     }
                 }
             }
