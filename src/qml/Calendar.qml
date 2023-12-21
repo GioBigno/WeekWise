@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
+import BDatabase
+
 Item {
     anchors.fill: parent
 
@@ -48,11 +50,26 @@ Item {
         popup.y = mouseY
 
         popup.width = w
-        popup.height = w*1.5
+        //popup.height = w*1.5
+
+        let result = db.execute("SELECT * FROM macroareas;")
+
+        for (var i = 0; i < result.length; ++i) {
+            var row = result[i];
+            console.log("ID:", row.macroarea_id, "Name:", row.macroarea_color);
+            macroAreas.append({name: row.macroarea_name, color: "#"+row.macroarea_color})
+        }
 
         popup.open()
     }
 
+    BDatabase{
+        id: db
+
+        Component.onCompleted: {
+            connect("dbconfig.ini")
+        }
+    }
 
     ListModel{
         id: daysOfTheWeek
@@ -65,13 +82,47 @@ Item {
         ListElement {day: qsTr("Domenica")}
     }
 
+    ListModel{
+        id: macroAreas
+    }
+
     Popup {
         id: popup
         width: 200
-        height: 200
+        height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        ListView {
+            id: listViewPopup
+            anchors.fill: parent
+            model: macroAreas
+            spacing: 10
+            clip: true
+
+            delegate: Rectangle {
+                width: listViewPopup.width
+                height: textActivityPopup.font.pixelSize + 10
+                radius: 3
+                color: model.color
+
+                Text {
+                    id: textActivityPopup
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                        leftMargin: 5
+                    }
+                    width: parent.width
+                    clip: true
+                    text: model.name
+
+                    font.pixelSize: 25
+                    font.family: customFont.name
+                }
+            }
+        }
     }
 
     GridLayout{
@@ -89,7 +140,7 @@ Item {
             model: numHours*7
 
             Rectangle{
-                id: rect
+                id: rectHour
                 color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -103,7 +154,7 @@ Item {
                     anchors.fill: parent
 
                     onClicked: (mouse) => {
-                        openPopup(rect.x + mouse.x, rect.y + mouse.y, rect.width)
+                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
                     }
                 }
             }
