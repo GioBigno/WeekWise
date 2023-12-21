@@ -52,14 +52,6 @@ Item {
         popup.width = w
         //popup.height = w*1.5
 
-        let result = db.execute("SELECT * FROM macroareas;")
-
-        for (var i = 0; i < result.length; ++i) {
-            var row = result[i];
-            console.log("ID:", row.macroarea_id, "Name:", row.macroarea_color);
-            macroAreas.append({name: row.macroarea_name, color: "#"+row.macroarea_color})
-        }
-
         popup.open()
     }
 
@@ -68,6 +60,23 @@ Item {
 
         Component.onCompleted: {
             connect("dbconfig.ini")
+
+            let result = execute("SELECT * FROM macroareas;")
+            for (var i = 0; i < result.length; ++i) {
+                var row = result[i];
+                console.log("ID:", row.macroarea_id, "color:", row.macroarea_color);
+                macroAreas.append({name: row.macroarea_name, color: "#"+row.macroarea_color})
+            }
+
+            result = execute("SELECT a.activity_name, m.macroarea_color
+                              FROM activities a
+                              JOIN macroareas m
+                              ON a.macroarea_id = m.macroarea_id;")
+            for (i = 0; i < result.length; ++i) {
+                row = result[i];
+                console.log("name:", row.activity_name, "m_color:", row.macroarea_color);
+                activities.append({name: row.activity_name, color: "#"+row.macroarea_color})
+            }
         }
     }
 
@@ -86,6 +95,10 @@ Item {
         id: macroAreas
     }
 
+    ListModel{
+        id: activities
+    }
+
     Popup {
         id: popup
         width: 200
@@ -97,7 +110,7 @@ Item {
         ListView {
             id: listViewPopup
             anchors.fill: parent
-            model: macroAreas
+            model: activities
             spacing: 10
             clip: true
 
