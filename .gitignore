@@ -55,3 +55,6 @@ compile_commands.json
 
 #db confing
 *.ini
+
+#plugin's dir
+/plugins
