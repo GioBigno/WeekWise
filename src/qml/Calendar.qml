@@ -33,7 +33,7 @@ Item {
         return new Date(d.getTime() - 7 * 24 * 60 * 60 * 1000);
     }
 
-    function openPopup(mouseX, mouseY){
+    function openPopup(mouseX, mouseY, w){
 
 
         if(mouseX + popup.width > parent.width){
@@ -44,8 +44,11 @@ Item {
             mouseY -= popup.height
         }
 
-        popupPosX = mouseX
-        popupPosy = mouseY
+        popup.x = mouseX
+        popup.y = mouseY
+
+        popup.width = w
+        popup.height = w*1.5
 
         popup.open()
     }
@@ -64,8 +67,6 @@ Item {
 
     Popup {
         id: popup
-        x: popupPosX
-        y: popupPosy
         width: 200
         height: 200
         modal: true
@@ -102,7 +103,7 @@ Item {
                     anchors.fill: parent
 
                     onClicked: (mouse) => {
-                        openPopup(rect.x + mouse.x, rect.y + mouse.y)
+                        openPopup(rect.x + mouse.x, rect.y + mouse.y, rect.width)
                     }
                 }
             }
