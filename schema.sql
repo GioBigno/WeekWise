@@ -1,6 +1,7 @@
 CREATE DATABASE weekwise;
 
 -- Connect to the weekwise database
+\c weekwise
 
 CREATE TABLE WeeklySchedule (
     ScheduleID SERIAL PRIMARY KEY,
