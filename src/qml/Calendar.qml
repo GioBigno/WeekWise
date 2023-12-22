@@ -62,35 +62,68 @@ Item {
         popup.open()
     }
 
+    function fillMacroareas(){
+        let result = db.execute("SELECT * FROM macroareas;")
+        for (let i = 0; i < result.length; ++i) {
+            let row = result[i];
+            macroAreas.append({name: row.macroarea_name, color: "#"+row.macroarea_color})
+        }
+    }
+
+    function fillActivities(){
+        let result = db.execute("SELECT a.activity_name, m.macroarea_color
+                          FROM activities a
+                          JOIN macroareas m
+                          ON a.macroarea_id = m.macroarea_id;")
+        for (let i = 0; i < result.length; ++i) {
+            let row = result[i];
+            activities.append({name: row.activity_name, color: "#"+row.macroarea_color})
+        }
+    }
+
+    function fillWeekHours(){
+
+        weekHours.clear()
+
+        for(let day = 0; day<7; day++){
+            for(let hour = 0; hour < numHours; hour++){
+                weekHours.append({macroarea_color: "" + Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)})
+            }
+        }
+
+        let result = db.execute("SELECT lh.date_logged, lh.activity_id, ma.macroarea_color
+                                 FROM logged_hours lh
+                                 JOIN activities a ON lh.activity_id = a.activity_id
+                                 JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
+                                 WHERE lh.date_logged
+                                 BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
+                                 AND '" +  Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd") +"';")
+
+        for (let i = 0; i < result.length; ++i) {
+            let row = result[i];
+            let date_logged = new Date(row.date_logged)
+
+            if(date_logged.getHours() < startTime || date_logged.getHours() > startTime+numHours){
+                continue;
+            }
+
+            let index = (date_logged.getDay()-1) + (7 * (date_logged.getHours()-startTime))
+            weekHours.set(index, {macroarea_color: "#"+row.macroarea_color})
+        }
+    }
+
     BDatabase{
         id: db
+        databaseType: "QSQLITE"
 
         Component.onCompleted: {
-            connect("dbconfig.ini")
+            connect("weekwise.db")
 
-            let result = execute("SELECT * FROM macroareas;")
-            for (var i = 0; i < result.length; ++i) {
-                var row = result[i];
-                console.log("ID:", row.macroarea_id, "color:", row.macroarea_color);
-                macroAreas.append({name: row.macroarea_name, color: "#"+row.macroarea_color})
-            }
-
-            result = execute("SELECT a.activity_name, m.macroarea_color
-                              FROM activities a
-                              JOIN macroareas m
-                              ON a.macroarea_id = m.macroarea_id;")
-            for (i = 0; i < result.length; ++i) {
-                row = result[i];
-                console.log("name:", row.activity_name, "m_color:", row.macroarea_color);
-                activities.append({name: row.activity_name, color: "#"+row.macroarea_color})
-            }
+            fillMacroareas()
+            fillActivities()
+            fillWeekHours()
 
             console.log("ultimo giorno: " + Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd"))
-
-            //result = execute("SELECT * FROM logged_hours
-            //                  WHERE date_logged
-            //                  BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
-            //                  AND '" +  Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd") +"';")
         }
     }
 
@@ -181,18 +214,18 @@ Item {
         rowSpacing: 5
 
         Repeater{
-            model: numHours*7
+            model: weekHours
 
             Rectangle{
                 id: rectHour
-                color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
+                color: model.macroarea_color
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 width: (grid.width) / (grid.columns)
 
                 Layout.column: (model.index % 7) + 1
-                Layout.row: (model.index % numHours) + 1
+                Layout.row: model.index/7 + 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -200,7 +233,8 @@ Item {
                     onClicked: (mouse) => {
                         openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
 
-                        console.log("date: " + Qt.formatDateTime(firstDay, "yyyy-MM-dd"))
+                        //console.log("date: " + Qt.formatDateTime(firstDay, "yyyy-MM-dd"))
+                        console.log("index: " + model.index)
                     }
                 }
             }
@@ -257,6 +291,7 @@ Item {
 
                 onClicked: {
                     firstDay = prevWeek(firstDay)
+                    fillWeekHours()
                 }
             }
             Button{
@@ -264,6 +299,7 @@ Item {
 
                 onClicked: {
                     firstDay = nextWeek(firstDay)
+                    fillWeekHours()
                 }
             }
         }
