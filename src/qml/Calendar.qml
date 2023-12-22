@@ -24,6 +24,13 @@ Item {
         return new Date(d.setDate(diff))
     }
 
+    function lastDayOfTheWeek(day){
+
+        var d = firstDayOfTheWeek(nextWeek(day))
+        var diff = d.getDate() - 1
+        return new Date(d.setDate(diff))
+    }
+
     function nextWeek(day){
 
         var d = day
@@ -77,6 +84,13 @@ Item {
                 console.log("name:", row.activity_name, "m_color:", row.macroarea_color);
                 activities.append({name: row.activity_name, color: "#"+row.macroarea_color})
             }
+
+            console.log("ultimo giorno: " + Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd"))
+
+            //result = execute("SELECT * FROM logged_hours
+            //                  WHERE date_logged
+            //                  BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
+            //                  AND '" +  Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd") +"';")
         }
     }
 
@@ -97,6 +111,11 @@ Item {
 
     ListModel{
         id: activities
+        ListElement {name: "None"; color:"gray"}
+    }
+
+    ListModel{
+        id: weekHours
     }
 
     Popup {
@@ -106,6 +125,10 @@ Item {
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        background: Rectangle {
+            color: Qt.rgba(Universal.background.r, Universal.background.g, Universal.background.b, 0.7)
+            border.color: Universal.background
+        }
 
         ListView {
             id: listViewPopup
@@ -133,6 +156,14 @@ Item {
 
                     font.pixelSize: 25
                     font.family: customFont.name
+                }
+
+                MouseArea{
+                    anchors.fill: parent
+
+                    onClicked: {
+                        console.log("activity: " + model.name)
+                    }
                 }
             }
         }
@@ -168,6 +199,8 @@ Item {
 
                     onClicked: (mouse) => {
                         openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
+
+                        console.log("date: " + Qt.formatDateTime(firstDay, "yyyy-MM-dd"))
                     }
                 }
             }
