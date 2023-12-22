@@ -1,8 +1,3 @@
-CREATE DATABASE weekwise;
-
--- Connect to the weekwise database
-\c weekwise
-
 CREATE TABLE weekly_schedule (
     schedule_id SERIAL PRIMARY KEY,
     date_start TIMESTAMP NOT NULL,
@@ -35,7 +30,7 @@ CREATE TABLE planned_hours (
 CREATE TABLE logged_hours (
     schedule_id INT PRIMARY KEY,
     activity_id INT NOT NULL,
-    date_logged DATE UNIQUE NOT NULL,
+    date_logged TIMESTAMP UNIQUE NOT NULL,
     FOREIGN KEY (schedule_id) REFERENCES weekly_schedule(schedule_id),
     FOREIGN KEY (activity_id) REFERENCES activities(activity_id)
 );
