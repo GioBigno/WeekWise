@@ -4,7 +4,7 @@
         <file alias="Main.qml">qml/Main.qml</file>
         <file alias="WeekView.qml">qml/WeekView.qml</file>
         <file alias="Calendar.qml">qml/Calendar.qml</file>
-        <file>qml/Calendar.qml</file>
+        <file alias="SideStats.qml">qml/SideStats.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>

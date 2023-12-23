@@ -16,15 +16,34 @@ Item{
 
             calendar.fillMacroareas()
             calendar.fillActivities()
-            calendar.fillWeekHours()
+            calendar.fillWeekLoggedHours()
         }
     }
 
-    Calendar{
-        id: calendar
+    RowLayout{
         anchors.fill: parent
-        width: parent.width
 
-        currentDay: new Date()
+        Calendar{
+            id: calendar
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumWidth: 50
+
+            currentDay: new Date()
+            firstDay: firstDayOfTheWeek(currentDay)
+        }
+
+        SideStats{
+            id: sideStats
+            //Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumWidth: 50
+            Layout.preferredWidth: parent.width/4
+
+            //TODO
+            firstDay: calendar.firstDay
+
+            //color: "red"
+        }
     }
 }

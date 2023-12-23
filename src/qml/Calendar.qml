@@ -5,12 +5,12 @@ import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
 Item {
-    anchors.fill: parent
+    //anchors.fill: parent
 
     property int startTime: 7
     property int numHours: 16
     required property date currentDay
-    property date firstDay: firstDayOfTheWeek(currentDay)
+    required property date firstDay
     property int popupPosX: 0
     property int popupPosy: 0
     property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
@@ -91,13 +91,13 @@ Item {
         }
     }
 
-    function fillWeekHours(){
+    function fillWeekLoggedHours(){
 
-        weekHours.clear()
+        weekLoggedHours.clear()
 
         for(let day = 0; day<7; day++){
             for(let hour = 0; hour < numHours; hour++){
-                weekHours.append({macroarea_color: cellBackground})
+                weekLoggedHours.append({macroarea_color: cellBackground})
             }
         }
 
@@ -118,7 +118,7 @@ Item {
             }
 
             let index = (date_logged.getDay()-1) + (7 * (date_logged.getHours()-startTime))
-            weekHours.set(index, {macroarea_color: "#"+row.macroarea_color})
+            weekLoggedHours.set(index, {macroarea_color: "#"+row.macroarea_color})
         }
     }
 
@@ -144,7 +144,7 @@ Item {
     }
 
     ListModel{
-        id: weekHours
+        id: weekLoggedHours
         //{macroarea_color}
     }
 
@@ -196,13 +196,13 @@ Item {
                     onClicked: {
 
                         if(model.activity_id === -1){
-                            weekHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
+                            weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
 
                             db.execute("DELETE FROM logged_hours
                                         WHERE date_logged = '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") + "';")
 
                         }else{
-                            weekHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
+                            weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
 
                             db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
                                         VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") +"');")
@@ -227,7 +227,7 @@ Item {
         rowSpacing: 5
 
         Repeater{
-            model: weekHours
+            model: weekLoggedHours
 
             Rectangle{
                 id: rectHour
@@ -288,7 +288,7 @@ Item {
                     Layout.row: model.index + 1
                     Layout.columnSpan: 1
                     anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
+                    //horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
 
                     color: Universal.foreground
@@ -309,7 +309,7 @@ Item {
 
                 onClicked: {
                     firstDay = prevWeek(firstDay)
-                    fillWeekHours()
+                    fillWeekLoggedHours()
                 }
             }
             Button{
@@ -317,7 +317,7 @@ Item {
 
                 onClicked: {
                     firstDay = nextWeek(firstDay)
-                    fillWeekHours()
+                    fillWeekLoggedHours()
                 }
             }
         }

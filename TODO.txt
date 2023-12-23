@@ -1,3 +1,5 @@
+move date function from Calendar to a dedicate component
+
 weekView progress bar for the activities
 
 find a better font
