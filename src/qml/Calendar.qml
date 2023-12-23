@@ -16,7 +16,6 @@ Item {
     property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
 
     function firstDayOfTheWeek(day){
-
         var d = day
         var weekday = d.getDay()
         var diff = d.getDate() - weekday + 1
@@ -24,14 +23,24 @@ Item {
     }
 
     function lastDayOfTheWeek(day){
-
         var d = firstDayOfTheWeek(nextWeek(day))
         var diff = d.getDate() - 1
         return new Date(d.setDate(diff))
     }
 
-    function nextWeek(day){
+    function dateFromIndex(indexCell){
+        let d = firstDay
+        let indexDay = indexCell % 7
+        let indexHour = (indexCell / 7) + startTime
+        let diffDay = d.getDate() + indexDay
+        d.setDate(diffDay)
+        d.setHours(indexHour)
+        d.setMinutes(0)
+        d.setSeconds(0)
+        return d
+    }
 
+    function nextWeek(day){
         var d = day
         return new Date(d.getTime() + 7 * 24 * 60 * 60 * 1000);
     }
@@ -186,27 +195,17 @@ Item {
 
                     onClicked: {
 
-                        //adjust the date in the format "yyyy-MM-dd hh:mm:ss"
-                        let d = firstDay
-                        let indexDay = selectActivityPopup.indexCell % 7
-                        let indexHour = (selectActivityPopup.indexCell / 7) + startTime
-                        let diffDay = d.getDate() + indexDay
-                        d.setDate(diffDay)
-                        d.setHours(indexHour)
-                        d.setMinutes(0)
-                        d.setSeconds(0)
-
                         if(model.activity_id === -1){
                             weekHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
 
                             db.execute("DELETE FROM logged_hours
-                                        WHERE date_logged = '" + Qt.formatDateTime(d, "yyyy-MM-dd hh:mm:ss") + "';")
+                                        WHERE date_logged = '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") + "';")
 
                         }else{
                             weekHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
 
                             db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
-                                        VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(d, "yyyy-MM-dd hh:mm:ss") +"');")
+                                        VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") +"');")
                         }
 
                         selectActivityPopup.close()
@@ -245,12 +244,8 @@ Item {
                     anchors.fill: parent
 
                     onClicked: (mouse) => {
-
-
                         selectActivityPopup.indexCell = model.index
                         openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
-
-                        //console.log("date: " + Qt.formatDateTime(firstDay, "yyyy-MM-dd"))
                     }
                 }
             }
@@ -264,7 +259,14 @@ Item {
                 Layout.row: 0
                 Layout.columnSpan: 1
 
-                color: model.index+1 === currentDay.getDay() ? Universal.accent : Universal.foreground
+                color: {
+                    if(Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd") === Qt.formatDateTime(currentDay, "yyyy-MM-dd")){
+                       return Universal.accent
+                    }else{
+                        return Universal.foreground
+                    }
+                }
+
                 text: model.day.substring(0,3) + "  " + (firstDay.getDate() + model.index)
 
                 font.pixelSize: 30
