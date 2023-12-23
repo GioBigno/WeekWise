@@ -4,8 +4,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
-import BDatabase
-
 Item {
     anchors.fill: parent
 
@@ -15,6 +13,7 @@ Item {
     property date firstDay: firstDayOfTheWeek(currentDay)
     property int popupPosX: 0
     property int popupPosy: 0
+    property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
 
     function firstDayOfTheWeek(day){
 
@@ -44,22 +43,21 @@ Item {
 
     function openPopup(mouseX, mouseY, w){
 
-
-        if(mouseX + popup.width > parent.width){
-            mouseX -= popup.width
+        if(mouseX + selectActivityPopup.width > parent.width){
+            mouseX -= selectActivityPopup.width
         }
 
-        if(mouseY + popup.height > parent.height){
-            mouseY -= popup.height
+        if(mouseY + selectActivityPopup.height > parent.height){
+            mouseY -= selectActivityPopup.height
         }
 
-        popup.x = mouseX
-        popup.y = mouseY
+        selectActivityPopup.x = mouseX
+        selectActivityPopup.y = mouseY
 
-        popup.width = w
-        //popup.height = w*1.5
+        selectActivityPopup.width = w
+        //selectActivityPopup.height = w*1.5
 
-        popup.open()
+        selectActivityPopup.open()
     }
 
     function fillMacroareas(){
@@ -71,13 +69,16 @@ Item {
     }
 
     function fillActivities(){
-        let result = db.execute("SELECT a.activity_name, m.macroarea_color
+
+        activities.append({activity_id: -1, name: "None", color: "gray"})
+
+        let result = db.execute("SELECT a.activity_id, a.activity_name, m.macroarea_color
                           FROM activities a
                           JOIN macroareas m
                           ON a.macroarea_id = m.macroarea_id;")
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            activities.append({name: row.activity_name, color: "#"+row.macroarea_color})
+            activities.append({activity_id: row.activity_id, name: row.activity_name, color: "#"+row.macroarea_color})
         }
     }
 
@@ -87,7 +88,7 @@ Item {
 
         for(let day = 0; day<7; day++){
             for(let hour = 0; hour < numHours; hour++){
-                weekHours.append({macroarea_color: "" + Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)})
+                weekHours.append({macroarea_color: cellBackground})
             }
         }
 
@@ -112,21 +113,6 @@ Item {
         }
     }
 
-    BDatabase{
-        id: db
-        databaseType: "QSQLITE"
-
-        Component.onCompleted: {
-            connect("weekwise.db")
-
-            fillMacroareas()
-            fillActivities()
-            fillWeekHours()
-
-            console.log("ultimo giorno: " + Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd"))
-        }
-    }
-
     ListModel{
         id: daysOfTheWeek
         ListElement {day: qsTr("Lunedi")}
@@ -140,19 +126,21 @@ Item {
 
     ListModel{
         id: macroAreas
+        //{name, color}
     }
 
     ListModel{
         id: activities
-        ListElement {name: "None"; color:"gray"}
+        //{activity_id, name, color}
     }
 
     ListModel{
         id: weekHours
+        //{macroarea_color}
     }
 
     Popup {
-        id: popup
+        id: selectActivityPopup
         width: 200
         height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
         modal: true
@@ -162,6 +150,8 @@ Item {
             color: Qt.rgba(Universal.background.r, Universal.background.g, Universal.background.b, 0.7)
             border.color: Universal.background
         }
+
+        property int indexCell: -1
 
         ListView {
             id: listViewPopup
@@ -195,7 +185,31 @@ Item {
                     anchors.fill: parent
 
                     onClicked: {
-                        console.log("activity: " + model.name)
+
+                        //adjust the date in the format "yyyy-MM-dd hh:mm:ss"
+                        let d = firstDay
+                        let indexDay = selectActivityPopup.indexCell % 7
+                        let indexHour = (selectActivityPopup.indexCell / 7) + startTime
+                        let diffDay = d.getDate() + indexDay
+                        d.setDate(diffDay)
+                        d.setHours(indexHour)
+                        d.setMinutes(0)
+                        d.setSeconds(0)
+
+                        if(model.activity_id === -1){
+                            weekHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
+
+                            db.execute("DELETE FROM logged_hours
+                                        WHERE date_logged = '" + Qt.formatDateTime(d, "yyyy-MM-dd hh:mm:ss") + "';")
+
+                        }else{
+                            weekHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
+
+                            db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
+                                        VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(d, "yyyy-MM-dd hh:mm:ss") +"');")
+                        }
+
+                        selectActivityPopup.close()
                     }
                 }
             }
@@ -231,10 +245,12 @@ Item {
                     anchors.fill: parent
 
                     onClicked: (mouse) => {
+
+
+                        selectActivityPopup.indexCell = model.index
                         openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
 
                         //console.log("date: " + Qt.formatDateTime(firstDay, "yyyy-MM-dd"))
-                        console.log("index: " + model.index)
                     }
                 }
             }
