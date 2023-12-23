@@ -1,0 +1,8 @@
+weekView progress bar for the activities
+
+find a better font
+
+"manage activities" page 
+"stats" page
+
+find a way to configure and synchronize the database
