@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import QtCore
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
@@ -9,27 +8,10 @@ Item {
 
     property int startTime: 7
     property int numHours: 16
-    required property date currentDay
-    required property date firstDay
-    property int popupPosX: 0
-    property int popupPosy: 0
     property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
 
-    function firstDayOfTheWeek(day){
-        var d = day
-        var weekday = d.getDay()
-        var diff = d.getDate() - weekday + 1
-        return new Date(d.setDate(diff))
-    }
-
-    function lastDayOfTheWeek(day){
-        var d = firstDayOfTheWeek(nextWeek(day))
-        var diff = d.getDate() - 1
-        return new Date(d.setDate(diff))
-    }
-
     function dateFromIndex(indexCell){
-        let d = firstDay
+        let d = weekView.firstDay
         let indexDay = indexCell % 7
         let indexHour = (indexCell / 7) + startTime
         let diffDay = d.getDate() + indexDay
@@ -37,17 +19,7 @@ Item {
         d.setHours(indexHour)
         d.setMinutes(0)
         d.setSeconds(0)
-        return d
-    }
-
-    function nextWeek(day){
-        var d = day
-        return new Date(d.getTime() + 7 * 24 * 60 * 60 * 1000);
-    }
-
-    function prevWeek(day){
-        var d = day
-        return new Date(d.getTime() - 7 * 24 * 60 * 60 * 1000);
+        return new Date(d)
     }
 
     function openPopup(mouseX, mouseY, w){
@@ -106,8 +78,8 @@ Item {
                                  JOIN activities a ON lh.activity_id = a.activity_id
                                  JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
                                  WHERE lh.date_logged
-                                 BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
-                                 AND '" +  Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd") +"';")
+                                 BETWEEN '" + Qt.formatDateTime(weekView.firstDay, "yyyy-MM-dd") +"'
+                                 AND '" +  Qt.formatDateTime(weekView.lastDay, "yyyy-MM-dd") +"';")
 
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
@@ -209,6 +181,7 @@ Item {
                         }
 
                         selectActivityPopup.close()
+                        weekView.weekTotalPlannedHoursChanged()
                     }
                 }
             }
@@ -263,11 +236,11 @@ Item {
                     if(Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd") === Qt.formatDateTime(currentDay, "yyyy-MM-dd")){
                        return Universal.accent
                     }else{
-                        return Universal.foreground
+                       return Universal.foreground
                     }
                 }
 
-                text: model.day.substring(0,3) + "  " + (firstDay.getDate() + model.index)
+                text: model.day.substring(0,3) + "  " + (weekView.firstDay.getDate() + model.index)
 
                 font.pixelSize: 30
                 font.family: customFont.name
@@ -308,16 +281,14 @@ Item {
                 text: "<"
 
                 onClicked: {
-                    firstDay = prevWeek(firstDay)
-                    fillWeekLoggedHours()
+                    weekView.prevWeek()
                 }
             }
             Button{
                 text: ">"
 
                 onClicked: {
-                    firstDay = nextWeek(firstDay)
-                    fillWeekLoggedHours()
+                    weekView.nextWeek()
                 }
             }
         }

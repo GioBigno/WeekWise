@@ -1,48 +1,47 @@
 import QtQuick 2.15
+import QtQuick.Controls.Universal 2.12
 
 Item {
-
-    required property date firstDay
 
     function fillWeekHours(){
 
         weekTotalHours.clear()
 
-        let result = db.execute("SELECT lh.date_logged, lh.activity_id, ma.macroarea_color
-                                 FROM logged_hours lh
-                                 JOIN activities a ON lh.activity_id = a.activity_id
-                                 JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
-                                 WHERE lh.date_logged
-                                 BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
-                                 AND '" +  Qt.formatDateTime(lastDayOfTheWeek(firstDay), "yyyy-MM-dd") +"';")
+        let result = db.execute("SELECT
+                                     m.macroarea_id,
+                                     m.macroarea_name,
+                                     m.macroarea_color,
+                                     COALESCE(p.planned_duration, 0) AS total_planned_hours,
+                                     COALESCE(COUNT(l.logged_id), 0) AS total_logged_hours
+                                 FROM macroareas m
+                                 LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
+                                 LEFT JOIN planned_hours p ON a.activity_id = p.activity_id
+                                 LEFT JOIN logged_hours l ON a.activity_id = l.activity_id
+                                 WHERE p.week_date
+                                 BETWEEN '" + Qt.formatDateTime(weekView.firstDay, "yyyy-MM-dd") +"'
+                                 AND '" + Qt.formatDateTime(weekView.lastDay, "yyyy-MM-dd") +"'
+                                 GROUP BY m.macroarea_id, m.macroarea_color;")
 
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            let date_logged = new Date(row.date_logged)
 
-            if(date_logged.getHours() < startTime || date_logged.getHours() > startTime+numHours){
-                continue;
-            }
-
-            let index = (date_logged.getDay()-1) + (7 * (date_logged.getHours()-startTime))
-            weekHours.set(index, {macroarea_color: "#"+row.macroarea_color})
+            weekTotalHours.append({macroarea_id: row.macroarea_id,
+                                   macroarea_name: row.macroarea_name,
+                                   macroarea_color: "#" + row.macroarea_color,
+                                   total_planned_hours: row.total_planned_hours,
+                                   total_logged_hours: row.total_logged_hours})
         }
-    }
-
-    function weekTotalHoursChanged(){
-
     }
 
     ListModel{
         id: weekTotalHours
-        //{macroarea_id, macroarea_color, num_hours_week}
+        //{macroarea_id, macroarea_name, macroarea_color, total_planned_hours, total_logged_hours}
     }
-
 
     ListView {
         id: listViewSideStats
         anchors.fill: parent
-        model: 10
+        model: weekTotalHours
         spacing: 10
         clip: true
 
@@ -51,7 +50,30 @@ Item {
             width: listViewSideStats.width
             height: 100
             //anchors.fill: parent
-            color: "green"
+            color: "transparent"
+
+            Text{
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignLeft
+
+                color: Universal.foreground
+                text: model.macroarea_name
+
+                font.pixelSize: 30
+                font.family: customFont.name
+            }
+
+            Text{
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignRight
+
+                color: Universal.foreground
+                text: "" + model.total_logged_hours + " / " + model.total_planned_hours
+
+                font.pixelSize: 30
+                font.family: customFont.name
+            }
+
         }
 
     }
