@@ -280,20 +280,32 @@ Item {
             Layout.row: 0
 
             Button{
+                width: 30
+                height: 30
 
-                background: Rectangle {color: "transparent"}
+                background: Rectangle{color: "transparent"}
 
-                icon.source: "qrc:/icons/icons/arrow10.svg"
+                IconImage{
+                    anchors.fill: parent
+                    source: "qrc:/icons/icons/arrow10.svg"
+                    color: Universal.accent
+                }
 
                 onClicked: {
                     weekView.prevWeek()
                 }
             }
             Button{
+                width: 30
+                height: 30
 
-                background: Rectangle {color: "transparent"}
+                background: Rectangle{color: "transparent"}
 
-                icon.source: "qrc:/icons/icons/arrow9.svg"
+                IconImage{
+                    anchors.fill: parent
+                    source: "qrc:/icons/icons/arrow9.svg"
+                    color: Universal.accent
+                }
 
                 onClicked: {
                     weekView.nextWeek()

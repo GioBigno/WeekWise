@@ -16,5 +16,6 @@
         <file>icons/arrow10.svg</file>
         <file>icons/pencil.svg</file>
         <file>icons/setting3.svg</file>
+         <file>icons/plus.svg</file>
     </qresource>
 </RCC>

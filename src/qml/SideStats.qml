@@ -46,22 +46,23 @@ Item {
         spacing: 10
         clip: true
 
+        property int fontSize: 30
+
         delegate: Rectangle{
 
             width: listViewSideStats.width
-            height: textNameBar.font.pixelSize*2 + bPrograssBar.height
+            height: listViewSideStats.fontSize*2 + bPrograssBar.height
             //anchors.fill: parent
             color: "transparent"
 
             Text{
-                id: textNameBar
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignLeft
 
-                color: Universal.foreground
+                color: Universal.accent
                 text: model.macroarea_name
 
-                font.pixelSize: 30
+                font.pixelSize: listViewSideStats.fontSize
                 font.family: customFont.name
             }
 
@@ -72,7 +73,7 @@ Item {
                 color: Universal.foreground
                 text: "" + model.total_logged_hours + " / " + model.total_planned_hours
 
-                font.pixelSize: 30
+                font.pixelSize: listViewSideStats.fontSize
                 font.family: customFont.name
             }
 
@@ -90,5 +91,35 @@ Item {
                 progress: (model.total_logged_hours/model.total_planned_hours)
             }
         }
+
+        footer: Rectangle{
+                    width: listViewSideStats.width
+                    height: listViewSideStats.fontSize*2 + 10
+                    //anchors.fill: parent
+                    color: "transparent"
+
+                    Button{
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+
+                        width: 40
+                        height: 40
+
+                        background: Rectangle{
+                                        color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5)
+                                        radius: 10
+                                    }
+
+                        IconImage{
+                            anchors.fill: parent
+                            source: "qrc:/icons/icons/plus.svg"
+                        }
+
+                        onClicked: {
+                            weekView.prevWeek()
+                        }
+                    }
+
+                }
     }
 }

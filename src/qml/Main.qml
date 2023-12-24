@@ -11,9 +11,9 @@ ApplicationWindow {
     title: qsTr("WeekWise")
 
     Universal.theme: Universal.Dark
-    Universal.accent: Universal.Violet
-    Universal.foreground: Universal.Steel
-    Universal.background: "black"
+    Universal.accent: Qt.color("#D6D5A8")
+    Universal.foreground:  Qt.color("#8370A0")
+    Universal.background: Qt.color("#192128")
 
     FontLoader {
         id: customFont
