@@ -113,6 +113,7 @@ Item {
                         IconImage{
                             anchors.fill: parent
                             source: "qrc:/icons/icons/plus.svg"
+                            color: Universal.background
                         }
 
                         onClicked: {

@@ -132,6 +132,7 @@ Item {
         background: Rectangle {
             color: Qt.rgba(Universal.background.r, Universal.background.g, Universal.background.b, 0.7)
             border.color: Universal.background
+            radius: 4
         }
 
         property int indexCell: -1
@@ -215,12 +216,28 @@ Item {
                 Layout.column: (model.index % 7) + 1
                 Layout.row: model.index/7 + 1
 
-                MouseArea{
+                Rectangle{
+                    id: maskRectHour
                     anchors.fill: parent
+                    color: "transparent"
 
-                    onClicked: (mouse) => {
-                        selectActivityPopup.indexCell = model.index
-                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked: (mouse) => {
+                            selectActivityPopup.indexCell = model.index
+                            openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
+                        }
+
+                        onEntered: {
+                            let c = Qt.color("black")
+                            maskRectHour.color = Qt.rgba(c.r, c.g, c.b, 0.3)
+                        }
+
+                        onExited: {
+                            maskRectHour.color = "transparent"
+                        }
                     }
                 }
             }

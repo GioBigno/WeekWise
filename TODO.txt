@@ -1,3 +1,4 @@
+add text in calendar's cells
 
 fix bug progress bar overflow
 
@@ -6,6 +7,10 @@ fix bug progress bar overflow
 
 find a way to configure and synchronize the database
 
+---------------------------------------------------------
+
 find a better font
+
+add "change theme" button
 
 translation
