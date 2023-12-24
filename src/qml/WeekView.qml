@@ -14,8 +14,10 @@ Item{
 
     function firstDayOfTheWeek(day){
         var d = day
-        var weekday = d.getDay()
-        var diff = d.getDate() - weekday + 1
+        var weekday = d.getDay() - 1
+        if(weekday < 0)
+            weekday = 6
+        var diff = d.getDate() - weekday
         return new Date(d.setDate(diff))
     }
 

@@ -1,4 +1,4 @@
-weekView progress bar for the activities
+weekView progress bar sorted
 
 find a better font
 
@@ -6,3 +6,5 @@ find a better font
 "stats" page
 
 find a way to configure and synchronize the database
+
+translation

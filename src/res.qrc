@@ -5,6 +5,7 @@
         <file alias="WeekView.qml">qml/WeekView.qml</file>
         <file alias="Calendar.qml">qml/Calendar.qml</file>
         <file alias="SideStats.qml">qml/SideStats.qml</file>
+        <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>

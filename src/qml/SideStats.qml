@@ -48,11 +48,12 @@ Item {
         delegate: Rectangle{
 
             width: listViewSideStats.width
-            height: 100
+            height: textNameBar.font.pixelSize*2 + bPrograssBar.height
             //anchors.fill: parent
             color: "transparent"
 
             Text{
+                id: textNameBar
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignLeft
 
@@ -72,6 +73,20 @@ Item {
 
                 font.pixelSize: 30
                 font.family: customFont.name
+            }
+
+            BProgressBar{
+                id: bPrograssBar
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 15
+
+                borderColor: Universal.foreground
+                backgroundColor: Universal.background
+                fillColor: model.macroarea_color
+                borderWidth: 1
+                radius: 25
+                progress: (model.total_logged_hours/model.total_planned_hours)
             }
 
         }
