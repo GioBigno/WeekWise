@@ -6,6 +6,8 @@
         <file alias="Calendar.qml">qml/Calendar.qml</file>
         <file alias="SideStats.qml">qml/SideStats.qml</file>
         <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
+        <file alias="PopupCalendarCell.qml">qml/PopupCalendarCell.qml</file>
+        <file alias="PopupSideStatsNew.qml">qml/PopupSideStatsNew.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>
@@ -16,6 +18,7 @@
         <file>icons/arrow10.svg</file>
         <file>icons/pencil.svg</file>
         <file>icons/setting3.svg</file>
-         <file>icons/plus.svg</file>
+        <file>icons/plus.svg</file>
+        <file>icons/trash.svg</file>
     </qresource>
 </RCC>

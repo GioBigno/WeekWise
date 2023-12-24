@@ -122,73 +122,8 @@ Item {
         //{macroarea_color}
     }
 
-    Popup {
+    PopupCalendarCell{
         id: selectActivityPopup
-        width: 200
-        height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        background: Rectangle {
-            color: Qt.rgba(Universal.background.r, Universal.background.g, Universal.background.b, 0.7)
-            border.color: Universal.background
-            radius: 4
-        }
-
-        property int indexCell: -1
-
-        ListView {
-            id: listViewPopup
-            anchors.fill: parent
-            model: activities
-            spacing: 10
-            clip: true
-
-            delegate: Rectangle {
-                width: listViewPopup.width
-                height: textActivityPopup.font.pixelSize + 10
-                radius: 3
-                color: model.color
-
-                Text {
-                    id: textActivityPopup
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        leftMargin: 5
-                    }
-                    width: parent.width
-                    clip: true
-                    text: model.name
-
-                    font.pixelSize: 25
-                    font.family: customFont.name
-                }
-
-                MouseArea{
-                    anchors.fill: parent
-
-                    onClicked: {
-
-                        if(model.activity_id === -1){
-                            weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
-
-                            db.execute("DELETE FROM logged_hours
-                                        WHERE date_logged = '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") + "';")
-
-                        }else{
-                            weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
-
-                            db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
-                                        VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") +"');")
-                        }
-
-                        selectActivityPopup.close()
-                        weekView.weekTotalPlannedHoursChanged()
-                    }
-                }
-            }
-        }
     }
 
     GridLayout{
@@ -216,30 +151,24 @@ Item {
                 Layout.column: (model.index % 7) + 1
                 Layout.row: model.index/7 + 1
 
-                Rectangle{
-                    id: maskRectHour
+                MouseArea{
                     anchors.fill: parent
-                    color: "transparent"
+                    hoverEnabled: true
 
-                    MouseArea{
-                        anchors.fill: parent
-                        hoverEnabled: true
+                    onClicked: (mouse) => {
+                        selectActivityPopup.indexCell = model.index
+                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
+                    }
 
-                        onClicked: (mouse) => {
-                            selectActivityPopup.indexCell = model.index
-                            openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
-                        }
+                    onEntered: {
+                        rectHour.opacity = 0.6
+                    }
 
-                        onEntered: {
-                            let c = Qt.color("black")
-                            maskRectHour.color = Qt.rgba(c.r, c.g, c.b, 0.3)
-                        }
-
-                        onExited: {
-                            maskRectHour.color = "transparent"
-                        }
+                    onExited: {
+                        rectHour.opacity = 1
                     }
                 }
+
             }
         }
 
