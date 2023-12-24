@@ -39,7 +39,7 @@ Item {
         //{macroarea_id, macroarea_name, macroarea_color, total_planned_hours, total_logged_hours}
     }
 
-    ListView {
+    ListView{
         id: listViewSideStats
         anchors.fill: parent
         model: weekTotalHours
@@ -89,8 +89,6 @@ Item {
                 radius: 25
                 progress: (model.total_logged_hours/model.total_planned_hours)
             }
-
         }
-
     }
 }

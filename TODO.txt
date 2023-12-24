@@ -1,10 +1,11 @@
-weekView progress bar sorted
 
-find a better font
+fix bug progress bar overflow
 
-"manage activities" page 
+"manage activities" page
 "stats" page
 
 find a way to configure and synchronize the database
+
+find a better font
 
 translation

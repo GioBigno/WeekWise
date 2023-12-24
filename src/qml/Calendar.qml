@@ -3,6 +3,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
+import Qt.labs.platform 1.0
+
 Item {
     //anchors.fill: parent
 
@@ -278,14 +280,20 @@ Item {
             Layout.row: 0
 
             Button{
-                text: "<"
+
+                background: Rectangle {color: "transparent"}
+
+                icon.source: "qrc:/icons/icons/arrow10.svg"
 
                 onClicked: {
                     weekView.prevWeek()
                 }
             }
             Button{
-                text: ">"
+
+                background: Rectangle {color: "transparent"}
+
+                icon.source: "qrc:/icons/icons/arrow9.svg"
 
                 onClicked: {
                     weekView.nextWeek()
