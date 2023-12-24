@@ -41,8 +41,6 @@ Item {
         //{macroarea_id, macroarea_name, macroarea_color, planned_id, total_planned_hours, total_logged_hours}
     }
 
-
-
     ListView{
         id: listViewSideStats
         anchors.fill: parent
@@ -57,7 +55,7 @@ Item {
         delegate: Rectangle{
             id: rectGoal
             width: listViewSideStats.width
-            height: listViewSideStats.fontSize*2 + bPrograssBar.height
+            height: listViewSideStats.fontSize*2 + listViewSideStats.barHeight
             //anchors.fill: parent
             color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.1)
             radius: 8
@@ -158,34 +156,43 @@ Item {
             }
         }
 
+
         footer: Rectangle{
+
                     width: listViewSideStats.width
-                    height: listViewSideStats.fontSize*2 + 10
-                    //anchors.fill: parent
+                    height: listViewSideStats.fontSize*2 + listViewSideStats.barHeight
                     color: "transparent"
 
-                    Button{
-                        id: buttonAddSideStatsProgressBar
-                        anchors.bottom: parent.bottom
-                        anchors.left: parent.left
+                    Rectangle{
+                        y: listViewSideStats.spacing
+                        width: listViewSideStats.width
+                        height: listViewSideStats.fontSize*2 + listViewSideStats.barHeight
+                        //anchors.fill: parent
+                        color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.1)
+                        radius: 8
 
-                        width: 40
-                        height: 40
+                        Button{
+                            id: buttonAddSideStatsProgressBar
+                            anchors.centerIn: parent
 
-                        background: Rectangle{
-                                        color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5)
-                                        opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
-                                        radius: 10
-                                    }
+                            width: parent.height / 1.5
+                            height: parent.height / 1.5
 
-                        IconImage{
-                            anchors.fill: parent
-                            source: "qrc:/icons/icons/plus.svg"
-                            color: Universal.background
-                        }
+                            background: Rectangle{
+                                            color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5)
+                                            opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
+                                            radius: 10
+                                        }
 
-                        onClicked: {
-                            weekView.prevWeek()
+                            IconImage{
+                                anchors.fill: parent
+                                source: "qrc:/icons/icons/plus.svg"
+                                color: Universal.background
+                            }
+
+                            onClicked: {
+                                //db.execute("insert into planned_hours(activity_id, planned_duration, week_date) values (2, 10, '2023-12-18');")
+                            }
                         }
                     }
                 }
