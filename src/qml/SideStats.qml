@@ -12,7 +12,8 @@ Item {
                                      m.macroarea_name,
                                      m.macroarea_color,
                                      COALESCE(p.planned_duration, 0) AS total_planned_hours,
-                                     COALESCE(COUNT(l.logged_id), 0) AS total_logged_hours
+                                     COALESCE(COUNT(l.logged_id), 0) AS total_logged_hours,
+                                     COALESCE(COUNT(l.logged_id) * 1.0 / NULLIF(p.planned_duration, 0), 0) AS logged_planned_ratio
                                  FROM macroareas m
                                  LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
                                  LEFT JOIN planned_hours p ON a.activity_id = p.activity_id
@@ -20,11 +21,11 @@ Item {
                                  WHERE p.week_date
                                  BETWEEN '" + Qt.formatDateTime(weekView.firstDay, "yyyy-MM-dd") +"'
                                  AND '" + Qt.formatDateTime(weekView.lastDay, "yyyy-MM-dd") +"'
-                                 GROUP BY m.macroarea_id, m.macroarea_color;")
+                                 GROUP BY m.macroarea_id, m.macroarea_color
+                                 ORDER BY logged_planned_ratio DESC;")
 
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-
             weekTotalHours.append({macroarea_id: row.macroarea_id,
                                    macroarea_name: row.macroarea_name,
                                    macroarea_color: "#" + row.macroarea_color,
