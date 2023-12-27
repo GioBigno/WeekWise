@@ -104,7 +104,17 @@ Item{
         weekView.weekLoggedHoursChanged();
     }
 
-    function getMAcroareas(){
+    function addPlannedMacroareas(macroarea_id, numHours){
+        modelLogic.addPlannedMacroarea(macroarea_id, numHours, firstDay);
+
+        //update
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+
+        //notify
+        weekView.weekLoggedHoursChanged();
+    }
+
+    function getMacroareas(){
         return modelLogic.getMacroareas();
     }
 

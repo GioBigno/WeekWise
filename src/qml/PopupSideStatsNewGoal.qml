@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Universal 2.12
 
 Popup {
-    id: selectActivityPopup
+    id: popUpNewGoal
     width: 200
     height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
     modal: true
@@ -50,22 +50,13 @@ Popup {
 
                 onClicked: {
 
-                    popupDetail.x = 0;
-                    popupDetail.y = 0;
-                    popupDetail.width = selectActivityPopup.width;
-                    popupDetail.open();
+                    popupNewGoalDetail.macroarea_id = model.id;
+                    popupNewGoalDetail.open();
 
-                    selectActivityPopup.close();
-                    //weekView.weekTotalPlannedHoursChanged()
+                    popUpNewGoal.close();
                 }
             }
         }
     }
-
-    Popup{
-        id: popupDetail
-
-    }
-
 }
 

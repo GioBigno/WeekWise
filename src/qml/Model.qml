@@ -45,6 +45,7 @@ Item{
 
     function fillWeekTotalHoursStats(firstDay, lastDay){
         let result = db.execute("SELECT
+                                     m.macroarea_id,
                                      m.macroarea_name,
                                      m.macroarea_color,
                                      COALESCE(pm.planned_duration, 0) AS total_planned_hours,
@@ -63,7 +64,8 @@ Item{
         weekTotalHoursStats.clear()
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            weekTotalHoursStats.append({macroarea_name: row.macroarea_name,
+            weekTotalHoursStats.append({macroarea_id: row.macroarea_id,
+                                        macroarea_name: row.macroarea_name,
                                         macroarea_color: "#"+row.macroarea_color,
                                         total_planned_hours: row.total_planned_hours,
                                         total_logged_hours: row.total_logged_hours});
@@ -101,6 +103,16 @@ Item{
         }else{
             weekLoggedHours.set(find, {date_logged: date, macroarea_color: getMacroareaById(activity.macroarea_id).color, activity_name: activity.name});
         }
+    }
+
+    function addPlannedMacroarea(macroarea_id, numHours, firstDay){
+        db.execute("INSERT INTO planned_macroareas (macroarea_id, planned_duration, week_date)
+                    VALUES (" + macroarea_id + ", " + numHours + ", '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") + "');");
+
+        console.log("query:  " + "INSERT INTO planned_macroareas (macroarea_id, planned_duration, week_date)
+                    VALUES (" + macroarea_id + ", " + numHours + ", '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") + "');")
+
+        fillWeekTotalHoursStats(controller.firstDay, controller.lastDay);
     }
 
     function getMacroareas(){
@@ -155,7 +167,7 @@ Item{
 
     ListModel{
         id: weekTotalHoursStats
-        //{macroarea_name, macroarea_color, total_planned_hours, total_logged_hours}
+        //{macroarea_id, macroarea_name, macroarea_color, total_planned_hours, total_logged_hours}
     }
 
     BDatabase{

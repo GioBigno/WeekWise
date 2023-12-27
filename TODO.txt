@@ -4,9 +4,15 @@ BUG ----------------------------
 
  - sideStats progress bar overflow
 
+ - limit to popupNewMacroarea spinBox
+
 --------------------------------
 
 UI -----------------------------
+
+ - better popupNewMacroarea spinBox
+
+ - sideStats header "weekly goal"
 
  - responsive text
 
@@ -20,7 +26,14 @@ UI -----------------------------
 
 functionality ------------------
 
- - "manage activities" page
+ - create new activity
+
+ - create new macroareas
+
+ - edit planned_hours
+
+ - add sideStats planned_activity
+
  - "stats" page
 
  - find a way to configure and synchronize the database

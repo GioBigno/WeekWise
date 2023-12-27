@@ -116,14 +116,14 @@ Item {
 
                 Text{
                     anchors.fill: parent
+                    anchors.leftMargin: 5
                     //horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: model.activity_name
                     clip: true
                     color: Universal.background
 
-
-                    font.pixelSize: 30
+                    font.pixelSize: parent.height * 0.9
                     font.family: customFont.name
                 }
 
