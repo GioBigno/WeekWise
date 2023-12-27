@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls.Universal 2.12
 
 Item{
     id: bProgressBarItem

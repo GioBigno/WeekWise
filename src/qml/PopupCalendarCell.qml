@@ -20,7 +20,7 @@ Popup {
     ListView {
         id: listViewPopup
         anchors.fill: parent
-        model: activities
+        model: controller.getActivities()
         spacing: 10
         clip: true
 
@@ -51,20 +51,13 @@ Popup {
                 onClicked: {
 
                     if(model.activity_id === -1){
-                        weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: cellBackground})
-
-                        db.execute("DELETE FROM logged_hours
-                                    WHERE date_logged = '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") + "';")
-
+                        controller.deleteLoggedHour(Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss"));
                     }else{
-                        weekLoggedHours.set(selectActivityPopup.indexCell, {macroarea_color: model.color})
-
-                        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
-                                    VALUES (" + model.activity_id + ", '" + Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss") +"');")
+                        controller.addLoggedHour(Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss"), model.activity_id);
                     }
 
-                    selectActivityPopup.close()
-                    weekView.weekTotalPlannedHoursChanged()
+                    selectActivityPopup.close();
+                    //weekView.weekTotalPlannedHoursChanged()
                 }
             }
         }

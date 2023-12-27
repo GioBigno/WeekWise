@@ -8,6 +8,8 @@
         <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
         <file alias="PopupCalendarCell.qml">qml/PopupCalendarCell.qml</file>
         <file alias="PopupSideStatsNew.qml">qml/PopupSideStatsNew.qml</file>
+        <file alias="Model.qml">qml/Model.qml</file>
+        <file alias="Controller.qml">qml/Controller.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>

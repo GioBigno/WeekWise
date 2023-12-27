@@ -3,48 +3,15 @@ import QtQuick.Controls.Universal 2.12
 
 Item {
 
-    function fillWeekHours(){
-
-        weekTotalHours.clear()
-
-        let result = db.execute("SELECT
-                                     m.macroarea_id,
-                                     m.macroarea_name,
-                                     m.macroarea_color,
-                                     p.planned_id,
-                                     COALESCE(p.planned_duration, 0) AS total_planned_hours,
-                                     COALESCE(COUNT(l.logged_id), 0) AS total_logged_hours,
-                                     COALESCE(COUNT(l.logged_id) * 1.0 / NULLIF(p.planned_duration, 0), 0) AS logged_planned_ratio
-                                 FROM macroareas m
-                                 LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
-                                 LEFT JOIN planned_hours p ON a.activity_id = p.activity_id
-                                 LEFT JOIN logged_hours l ON a.activity_id = l.activity_id
-                                 WHERE p.week_date
-                                 BETWEEN '" + Qt.formatDateTime(weekView.firstDay, "yyyy-MM-dd") +"'
-                                 AND '" + Qt.formatDateTime(weekView.lastDay, "yyyy-MM-dd") +"'
-                                 GROUP BY m.macroarea_id, m.macroarea_color
-                                 ORDER BY logged_planned_ratio DESC;")
-
-        for (let i = 0; i < result.length; ++i) {
-            let row = result[i];
-            weekTotalHours.append({macroarea_id: row.macroarea_id,
-                                   macroarea_name: row.macroarea_name,
-                                   macroarea_color: "#" + row.macroarea_color,
-                                   planned_id: row.planned_id,
-                                   total_planned_hours: row.total_planned_hours,
-                                   total_logged_hours: row.total_logged_hours})
-        }
-    }
-
-    ListModel{
-        id: weekTotalHours
-        //{macroarea_id, macroarea_name, macroarea_color, planned_id, total_planned_hours, total_logged_hours}
+    function weekTotalHoursStatsChanged(){
+        //currently useless
+        //can be usefull if you want to add animation when stats changes
     }
 
     ListView{
         id: listViewSideStats
         anchors.fill: parent
-        model: weekTotalHours
+        model: controller.getWeekTotalHoursStats()
         spacing: 10
         clip: true
 
@@ -88,6 +55,7 @@ Item {
 
                     color: Universal.accent
                     text: model.macroarea_name
+                    clip: true
 
                     font.pixelSize: listViewSideStats.fontSize
                     font.family: customFont.name
@@ -103,6 +71,7 @@ Item {
 
                     color: Universal.foreground
                     text: "" + model.total_logged_hours + " / " + model.total_planned_hours
+                    clip: true
 
                     font.pixelSize: listViewSideStats.fontSize
                     font.family: customFont.name
@@ -120,14 +89,6 @@ Item {
                     borderWidth: 1
                     radius: 25
                     progress: (model.total_logged_hours/model.total_planned_hours)
-                }
-
-                MouseArea{
-                    anchors.fill: parent
-
-                    onClicked: (mouse) => {
-
-                    }
                 }
 
                 RoundButton{
@@ -148,17 +109,15 @@ Item {
 
                     onClicked: {
                         //eliminare da db
-                        db.execute("DELETE FROM planned_hours
-                                    WHERE planned_id = " + model.planned_id + ";")
+
                     }
                 }
 
             }
         }
 
-
         footer: Rectangle{
-
+                    id: footerRect
                     width: listViewSideStats.width
                     height: listViewSideStats.fontSize*2 + listViewSideStats.barHeight
                     color: "transparent"
@@ -191,7 +150,7 @@ Item {
                             }
 
                             onClicked: {
-                                //db.execute("insert into planned_hours(activity_id, planned_duration, week_date) values (2, 10, '2023-12-18');")
+
                             }
                         }
                     }

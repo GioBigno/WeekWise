@@ -15,7 +15,7 @@ ApplicationWindow {
     Universal.foreground:  Qt.color("#8370A0")
     Universal.background: Qt.color("#192128")
 
-    FontLoader {
+    FontLoader{
         id: customFont
         source: "qrc:/fonts/font.ttf"
     }
@@ -43,9 +43,7 @@ ApplicationWindow {
         Home{}
     }
 
-    Component{
-        id: weekViewComponent
-        WeekView{}
+    Controller{
+        id: controller
     }
-
 }

@@ -1,16 +1,30 @@
-add text in calendar's cells
+BUG ----------------------------
 
-fix bug progress bar overflow
+ - selectActivityPopup is not always at the top
 
-"manage activities" page
-"stats" page
+ - sideStats progress bar overflow
 
-find a way to configure and synchronize the database
+--------------------------------
 
----------------------------------------------------------
+UI -----------------------------
 
-find a better font
+ - responsive text
 
-add "change theme" button
+ - find a better font
 
-translation
+ - add "change theme" button
+
+ - resize weekView areas
+
+--------------------------------
+
+functionality ------------------
+
+ - "manage activities" page
+ - "stats" page
+
+ - find a way to configure and synchronize the database
+
+ - translation
+
+--------------------------------

@@ -8,7 +8,6 @@ Item {
     RowLayout{
         anchors.fill: parent
 
-
         RoundButton {
 
             implicitWidth: 200
@@ -28,7 +27,7 @@ Item {
             font.family: customFont.name
 
             onPressed: {
-                stackView.push(weekViewComponent);
+                controller.pushWeekView()
             }
         }
 
@@ -49,7 +48,16 @@ Item {
             text: "Stats"
             font.pixelSize: Math.min(width, height)/6
             font.family: customFont.name
+
+            onPressed: {
+                controller.pushStatsView()
+            }
         }
+    }
+
+    Component{
+        id: weekViewComponent
+        WeekView{}
     }
 
 }
