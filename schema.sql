@@ -12,13 +12,22 @@ CREATE TABLE activities (
     FOREIGN KEY (macroarea_id) REFERENCES macroareas(macroarea_id)
 );
 
-CREATE TABLE planned_hours (
-    planned_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    activity_id INTEGER NOT NULL,
+CREATE TABLE planned_macroareas (
+    planned_macroarea_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    macroarea_id INTEGER NOT NULL,
     planned_duration INTEGER NOT NULL,
     week_date TEXT NOT NULL,
+    FOREIGN KEY (macroarea_id) REFERENCES macroareas(macroarea_id),
+    UNIQUE (week_date, macroarea_id)
+);
+
+CREATE TABLE planned_activities (
+    planned_acitivity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    activity_id INTEGER NOT NULL,
+    planned_macroarea_id INTEGER NOT NULL,
+    planned_duration INTEGER NOT NULL,
     FOREIGN KEY (activity_id) REFERENCES activities(activity_id),
-    UNIQUE (week_date, activity_id)
+    FOREIGN KEY (planned_macroarea_id) REFERENCES planned_macroareas(planned_macroarea_id)
 );
 
 CREATE TABLE logged_hours (
