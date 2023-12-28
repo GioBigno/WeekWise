@@ -38,6 +38,15 @@ Popup {
             SpinBox{
                 id: hoursSpinBox
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                background: Rectangle{
+                    color: "transparent"
+                }
+
+                font.pixelSize: 25
+                font.family: customFont.name
+
+                from: 1
+                to: 24*7
                 value: 5
 
                 onValueChanged: {

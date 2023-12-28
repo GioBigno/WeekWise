@@ -10,8 +10,6 @@ BUG ----------------------------
 
 UI -----------------------------
 
- - better popupNewMacroarea spinBox
-
  - sideStats header "weekly goal"
 
  - responsive text

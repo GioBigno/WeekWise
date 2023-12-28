@@ -71,13 +71,13 @@ Item {
 
     ListModel{
         id: daysOfTheWeek
-        ListElement {day: qsTr("Lunedi")}
-        ListElement {day: qsTr("Martedi")}
-        ListElement {day: qsTr("Mercoledi")}
-        ListElement {day: qsTr("Giovedi")}
-        ListElement {day: qsTr("Venerdi")}
-        ListElement {day: qsTr("Sabato")}
-        ListElement {day: qsTr("Domenica")}
+        ListElement {day: qsTr("Monday")}
+        ListElement {day: qsTr("Tuesday")}
+        ListElement {day: qsTr("Wednesday")}
+        ListElement {day: qsTr("Thursday")}
+        ListElement {day: qsTr("Friday")}
+        ListElement {day: qsTr("Saturday")}
+        ListElement {day: qsTr("Sunday")}
     }
 
     ListModel{
@@ -123,7 +123,7 @@ Item {
                     clip: true
                     color: Universal.background
 
-                    font.pixelSize: parent.height * 0.9
+                    font.pixelSize: parent.height * 0.8
                     font.family: customFont.name
                 }
 
