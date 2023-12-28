@@ -42,6 +42,22 @@ Item {
         property int barHeight: 15
         property int space: 10
 
+        header: Rectangle{
+            id: headerRect
+            width: listViewSideStats.width
+            height: listViewSideStats.fontSize*2 + listViewSideStats.barHeight
+            color: "transparent"
+
+            Text{
+                y: -(listViewSideStats.fontSize)
+                text: qsTr("Weekly goal")
+
+                color: Universal.foreground
+                font.pixelSize: listViewSideStats.fontSize * 2
+                font.family: customFont.name
+            }
+        }
+
         delegate: Rectangle{
             id: rectGoal
             width: listViewSideStats.width

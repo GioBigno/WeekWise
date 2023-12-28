@@ -4,13 +4,9 @@ BUG ----------------------------
 
  - sideStats progress bar overflow
 
- - limit to popupNewMacroarea spinBox
-
 --------------------------------
 
 UI -----------------------------
-
- - sideStats header "weekly goal"
 
  - responsive text
 
