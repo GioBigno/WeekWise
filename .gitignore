@@ -53,8 +53,8 @@ compile_commands.json
 
 *_qmlcache.qrc
 
-#db confing
-*.ini
+#db file
+*.db
 
 #plugin's dir
 /plugins
