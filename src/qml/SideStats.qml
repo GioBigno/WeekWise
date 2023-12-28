@@ -9,25 +9,45 @@ Item {
         pieSeries.clear();
         let result = controller.getWeekTotalHoursStats();
 
-        let total_logged_hours=0;
         let total_planned_hours=0;
         let i =0;
         for (i = 0; i < result.count; ++i) {
             let row = result.get(i);
             total_planned_hours += row.total_planned_hours;
-            total_logged_hours += row.total_logged_hours;
+        }
+
+        if(total_planned_hours == 0){
+            return;
         }
 
         for (i = 0; i < result.count; ++i) {
             let row = result.get(i);
-            pieSeries.append(row.macroarea_color, row.total_planned_hours / total_planned_hours);
-            pieSeries.find(row.macroarea_color).color = row.macroarea_color;
-        }
 
-        if(total_planned_hours != 0){
-            console.log("planned: " + total_planned_hours + ", logged: " + total_logged_hours)
-            pieSeries.append("gray", (total_planned_hours-total_logged_hours) / total_planned_hours);
-            pieSeries.find("gray").color = "gray";
+            let ratio_done = 0;
+            let ratio_todo = 0;
+            if(row.total_logged_hours > row.total_planned_hours){
+                ratio_done = row.total_planned_hours / total_planned_hours;
+                ratio_todo = 0;
+            }else{
+                ratio_done = row.total_logged_hours / total_planned_hours;
+                ratio_todo = (row.total_planned_hours - row.total_logged_hours) / total_planned_hours;
+            }
+
+            console.log("" + row.macroarea_name + ", ratio_done=" + ratio_done)
+
+            if(ratio_done != 0){
+                pieSeries.append(row.macroarea_color, ratio_done);
+                pieSeries.find(row.macroarea_color).color = row.macroarea_color;
+            }
+
+            if(ratio_todo != 0){
+
+                let color = Qt.color(row.macroarea_color)
+                let colorDark = Qt.rgba(color.r, color.g, color.b, 0.6);
+
+                pieSeries.append(row.macroarea_color + "dark", ratio_todo);
+                pieSeries.find(row.macroarea_color+"dark").color = colorDark;
+            }
         }
     }
 
@@ -43,6 +63,7 @@ Item {
     ScrollView{
         id: scrollView
         anchors.fill: parent
+        anchors.rightMargin: 5
 
         ScrollBar.vertical: ScrollBar {
             id: scrollBar
@@ -61,7 +82,7 @@ Item {
                 implicitHeight: 50
                 radius: width/2
                 color: (scrollBar.hovered || scrollBar.pressed) ? Qt.rgba(Qt.color("gray").r, Qt.color("gray").g, Qt.color("gray").b, 0.6) :
-                                           Qt.rgba(Qt.color("gray").r, Qt.color("gray").g, Qt.color("gray").b, 0.1)
+                                           "transparent"
             }
         }
 
@@ -96,13 +117,6 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 //Layout.alignment: Qt.AlignBottom
-            }
-
-            Rectangle{
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                color:"red"
-                height: 100
             }
 
             ChartView {

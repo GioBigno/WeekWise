@@ -76,7 +76,7 @@ ColumnLayout{
                 fillColor: model.macroarea_color
                 borderWidth: 1
                 radius: 25
-                progress: (model.total_logged_hours/model.total_planned_hours)
+                progress: (model.total_logged_hours/model.total_planned_hours) > 1 ? 1 : (model.total_logged_hours/model.total_planned_hours)
             }
         }
     }

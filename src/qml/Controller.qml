@@ -64,6 +64,7 @@ Item{
 
     function prevWeek(){
         firstDay = new Date(firstDay.getTime() - 7 * 24 * 60 * 60 * 1000);
+        lastDay = lastDayOfTheWeek(firstDay);
 
         //update
         modelLogic.fillWeekLoggedHours(firstDay, lastDay);
@@ -76,6 +77,7 @@ Item{
 
     function nextWeek(){
         firstDay = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
+        lastDay = lastDayOfTheWeek(firstDay);
 
         //update
         modelLogic.fillWeekLoggedHours(firstDay, lastDay);

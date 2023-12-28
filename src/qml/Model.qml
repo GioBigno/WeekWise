@@ -55,11 +55,14 @@ Item{
                                  LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
                                  LEFT JOIN planned_macroareas pm ON m.macroarea_id = pm.macroarea_id
                                  LEFT JOIN logged_hours l ON a.activity_id = l.activity_id
-                                 WHERE pm.week_date
-                                 BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
-                                 AND '" + Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"'
+                                 WHERE
+                                     (pm.week_date BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
+                                     AND '" + Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"')
+                                 AND (l.date_logged BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
+                                     AND '" + Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"')
                                  GROUP BY m.macroarea_id, m.macroarea_color
                                  ORDER BY logged_planned_ratio ASC;")
+
 
         weekTotalHoursStats.clear()
         for (let i = 0; i < result.length; ++i) {
@@ -128,6 +131,12 @@ Item{
     }
 
     function getWeekTotalHoursStats(){
+
+        console.log("return stats: ")
+
+        console.log(weekTotalHoursStats.count)
+
+
         return weekTotalHoursStats;
     }
 
