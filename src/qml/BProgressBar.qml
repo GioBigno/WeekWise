@@ -15,6 +15,7 @@ Item{
     Rectangle{
         z: 0
         anchors.fill: parent
+        antialiasing: true
 
         color: bProgressBarItem.backgroundColor
         radius: bProgressBarItem.radius
@@ -25,6 +26,7 @@ Item{
         z: 1
         width: parent.width * bProgressBarItem.progress
         height: parent.height
+        antialiasing: true
 
         color: bProgressBarItem.fillColor
         radius: bProgressBarItem.radius
@@ -34,6 +36,7 @@ Item{
     Rectangle{
         z: 2
         anchors.fill: parent
+        antialiasing: true
 
         color: "transparent"
         radius: bProgressBarItem.radius

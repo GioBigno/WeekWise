@@ -24,6 +24,9 @@ Item{
 
         weekView = weekViewComponent.createObject(stackView);
         stackView.push(weekView);
+
+        weekView.weekTotalHoursStatsChanged();
+        weekView.weekLoggedHoursChanged();
     }
 
     function pushStatsView(){
@@ -102,6 +105,7 @@ Item{
 
         //notify
         weekView.weekLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
     }
 
     function addPlannedMacroareas(macroarea_id, numHours){
@@ -112,6 +116,7 @@ Item{
 
         //notify
         weekView.weekLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
     }
 
     function getMacroareas(){

@@ -121,6 +121,7 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     text: model.activity_name
                     clip: true
+                    elide: Text.ElideRight
                     color: Universal.background
 
                     font.pixelSize: parent.height * 0.8
@@ -155,6 +156,7 @@ Item {
                 Layout.column: model.index + 1
                 Layout.row: 0
                 Layout.columnSpan: 1
+                elide: Text.ElideRight
 
                 color: {
                     if(Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd") === Qt.formatDateTime(controller.currentDay, "yyyy-MM-dd")){

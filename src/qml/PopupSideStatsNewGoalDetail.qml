@@ -16,7 +16,7 @@ Popup {
     }
 
     required property int macroarea_id
-    property int numHours: 0
+    property int numHours: hoursSpinBox.value
 
     ColumnLayout{
         anchors.fill: parent

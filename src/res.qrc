@@ -11,6 +11,7 @@
         <file alias="PopupSideStatsNewGoalDetail.qml">qml/PopupSideStatsNewGoalDetail.qml</file>
         <file alias="Model.qml">qml/Model.qml</file>
         <file alias="Controller.qml">qml/Controller.qml</file>
+        <file alias="SideBars.qml">qml/SideBars.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>

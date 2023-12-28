@@ -1,5 +1,7 @@
 BUG ----------------------------
 
+ - pieChart overflow
+
  - selectActivityPopup is not always at the top
 
  - sideStats progress bar overflow
