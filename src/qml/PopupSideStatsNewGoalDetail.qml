@@ -15,7 +15,7 @@ Popup {
         radius: 4
     }
 
-    required property int macroarea_id
+    property int macroarea_id: -1
     property int numHours: hoursSpinBox.value
 
     ColumnLayout{
@@ -73,9 +73,12 @@ Popup {
 
             onClicked: {
                 console.log("marcoarea_id: " + popUpNewGoalDetail.macroarea_id)
-                controller.addPlannedMacroareas(popUpNewGoalDetail.macroarea_id, numHours);
-
-                popUpNewGoalDetail.close();
+                if(popUpNewGoalDetail.macroarea_id === -1){
+                    console.log("error: trying to add macroarea_id=-1")
+                }else{
+                    controller.addPlannedMacroareas(popUpNewGoalDetail.macroarea_id, numHours);
+                }
+                popUpNewGoalDetail.close();    
             }
         }
 
