@@ -97,8 +97,8 @@ Item {
 
         columns: 8
         rows: numHours + 1
-        columnSpacing: 5
-        rowSpacing: 5
+        columnSpacing: 3
+        rowSpacing: 3
 
         Repeater{
             model: cellsHours
@@ -124,7 +124,7 @@ Item {
                     elide: Text.ElideRight
                     color: Universal.background
 
-                    font.pixelSize: parent.height * 0.8
+                    font.pixelSize: parent.height * 0.6
                     font.family: customFont.name
                 }
 

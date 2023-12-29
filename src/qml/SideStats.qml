@@ -88,9 +88,7 @@ Item {
             id: sideStatslayout
             anchors.fill: parent
 
-
             spacing: 0
-
 
             property int barHeight: 15
             property int fontSize: 30
@@ -114,18 +112,17 @@ Item {
             }
 
             SideBars{
+                id: sideBars
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-
-                //width: parent.width
-                //Layout.alignment: Qt.AlignBottom
             }
 
             ChartView {
                 id: chart
-                height: 250
+                y: headerRect.height + sideBars.height + 2*sideStatslayout.spacing
+                Layout.preferredHeight: width
                 Layout.fillWidth: true
-                Layout.alignment: Qt.AlignBottom
+                Layout.fillHeight: true
                 antialiasing: true
                 backgroundColor: "transparent"
                 legend.visible: false
