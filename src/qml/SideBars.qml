@@ -4,7 +4,27 @@ import QtQuick.Controls.Universal 2.12
 
 Item{
 
-    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (controller.getWeekTotalHoursStats().count+1) - 20
+    function getNumber(){
+        return weekTotalHours.count
+    }
+
+    function weekTotalHoursStatsChanged(){
+        let result = controller.getWeekTotalHoursStats()
+        weekTotalHours.clear()
+        for (let i = 0; i < result.count; ++i) {
+            let row = result.get(i);
+
+            weekTotalHours.append({planned_macroarea_id: row.planned_macroarea_id, macroarea_name: row.macroarea_name, macroarea_color: row.macroarea_color,
+                                   total_logged_hours: row.total_logged_hours, total_planned_hours: row.total_planned_hours});
+        }
+    }
+
+    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (weekTotalHours.count+1) - 20
+
+    ListModel{
+        id: weekTotalHours
+        //{planned_macroarea_id, macroarea_name, macroarea_color, total_logged_hours, total_planned_hours}
+    }
 
     Column{
         id: listViewSideBars
@@ -17,7 +37,7 @@ Item{
         property int space: 10
 
         Repeater{
-            model: controller.getWeekTotalHoursStats()
+            model: weekTotalHours
             clip: true
 
             delegate: Rectangle{
@@ -125,7 +145,7 @@ Item{
                             icon.height: parent.height - 2*padding
 
                             onClicked: {
-                                controller.deletePlannedMacroareas(planned_macroarea_id);
+                                controller.deletePlannedMacroareas(model.planned_macroarea_id);
                             }
                         }
 
@@ -153,7 +173,8 @@ Item{
                                 popupNewGoalDetailEdit.x = 0;
                                 popupNewGoalDetailEdit.y = y;
                                 popupNewGoalDetailEdit.width = x - 5;
-                                popupNewGoalDetailEdit.macroarea_id = model.macroarea_id
+                                popupNewGoalDetailEdit.macroarea_id = model.macroarea_id;
+                                popupNewGoalDetailEdit.setStartValue(model.total_planned_hours);
                                 popupNewGoalDetailEdit.open();
                             }
                         }

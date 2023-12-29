@@ -6,6 +6,8 @@ import QtQuick.Controls.Universal 2.12
 Item {
 
     function weekTotalHoursStatsChanged(){
+        sideBars.weekTotalHoursStatsChanged();
+
         pieSeries.clear();
         let result = controller.getWeekTotalHoursStats();
 
@@ -44,7 +46,7 @@ Item {
                 let colorDark = Qt.rgba(color.r, color.g, color.b, 0.6);
 
                 pieSeries.append(row.macroarea_color + "dark", ratio_todo);
-                pieSeries.find(row.macroarea_color+"dark").color = colorDark;
+                pieSeries.find(row.macroarea_color+"dark").color = Qt.color(row.macroarea_color).darker();
             }
         }
     }
@@ -115,6 +117,7 @@ Item {
                 id: sideBars
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                Layout.preferredHeight: height
             }
 
             ChartView {

@@ -51,9 +51,11 @@ Popup {
                 onClicked: {
 
                     popupNewGoalDetail.macroarea_id = model.id;
+                    popupNewGoalDetail.setStartValue(5);
+                    popUpNewGoal.close();
                     popupNewGoalDetail.open();
 
-                    popUpNewGoal.close();
+
                 }
             }
         }

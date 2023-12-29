@@ -12,9 +12,9 @@ Item {
     property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
 
     function dateFromIndex(indexCell){
-        let d = controller.firstDay;
+        let d = new Date(controller.firstDay);
         let indexDay = indexCell % 7;
-        let indexHour = (indexCell / 7) + startTime;
+        let indexHour = Math.trunc(indexCell / 7) + startTime;
         let diffDay = d.getDate() + indexDay;
         d.setDate(diffDay);
         d.setHours(indexHour);
@@ -24,6 +24,8 @@ Item {
     }
 
     function openPopup(mouseX, mouseY, w){
+
+        selectActivityPopup.width = w;
 
         if(mouseX + selectActivityPopup.width > parent.width){
             mouseX -= selectActivityPopup.width;
@@ -35,9 +37,6 @@ Item {
 
         selectActivityPopup.x = mouseX;
         selectActivityPopup.y = mouseY;
-
-        selectActivityPopup.width = w;
-        //selectActivityPopup.height = w*1.5
 
         selectActivityPopup.open();
     }
@@ -60,7 +59,10 @@ Item {
                 continue;
             }
 
-            let index = (date_logged.getDay()-1) + (7 * (date_logged.getHours()-startTime));
+            let day = date_logged.getDay()-1
+            if(day < 0)
+                day = 6;
+            let index = (day) + (7 * (date_logged.getHours()-startTime));
             cellsHours.set(index, {activity_name: row.activity_name, macroarea_color: row.macroarea_color});
         }
     }
@@ -133,8 +135,8 @@ Item {
                     hoverEnabled: true
 
                     onClicked: (mouse) => {
-                        selectActivityPopup.indexCell = model.index
-                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width)
+                        selectActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
+                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width);
                     }
 
                     onEntered: {

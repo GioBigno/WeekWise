@@ -18,6 +18,10 @@ Popup {
     property int macroarea_id: -1
     property int numHours: hoursSpinBox.value
 
+    function setStartValue(x){
+        hoursSpinBox.value = x;
+    }
+
     ColumnLayout{
         anchors.fill: parent
 
@@ -72,7 +76,6 @@ Popup {
             font.family: customFont.name
 
             onClicked: {
-                console.log("marcoarea_id: " + popUpNewGoalDetail.macroarea_id)
                 if(popUpNewGoalDetail.macroarea_id === -1){
                     console.log("error: trying to add macroarea_id=-1")
                 }else{

@@ -15,7 +15,7 @@ Popup {
         radius: 4
     }
 
-    property int indexCell: -1
+    property string dateCell: ""
 
     ListView {
         id: listViewPopup
@@ -51,9 +51,9 @@ Popup {
                 onClicked: {
 
                     if(model.activity_id === -1){
-                        controller.deleteLoggedHour(Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss"));
+                        controller.deleteLoggedHour(dateCell);
                     }else{
-                        controller.addLoggedHour(Qt.formatDateTime(dateFromIndex(selectActivityPopup.indexCell), "yyyy-MM-dd hh:mm:ss"), model.activity_id);
+                        controller.addLoggedHour(dateCell, model.activity_id);
                     }
 
                     selectActivityPopup.close();

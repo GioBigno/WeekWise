@@ -33,13 +33,13 @@ Item{
                                  JOIN activities a ON lh.activity_id = a.activity_id
                                  JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
                                  WHERE lh.date_logged
-                                 BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"'
-                                 AND '" +  Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"';");
+                                 BETWEEN " + controller.dateToTimestampNoTime(firstDay) +"
+                                 AND " +  (controller.dateToTimestampNoTime(lastDay)-1) +";");
 
         weekLoggedHours.clear();
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            weekLoggedHours.append({date_logged: row.date_logged, macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name});
+            weekLoggedHours.append({date_logged: timeStamptoDate(row.date_logged), macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name});
         }
     }
 
@@ -55,17 +55,19 @@ Item{
                                 FROM macroareas m
                                 LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
                                 LEFT JOIN planned_macroareas pm ON m.macroarea_id = pm.macroarea_id
-                                    AND pm.week_date BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"' AND '" +  Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"'
+                                    AND pm.week_date BETWEEN " + controller.dateToTimestampNoTime(firstDay) +" AND " + (controller.dateToTimestampNoTime(lastDay)-1) +"
                                 LEFT JOIN logged_hours l ON a.activity_id = l.activity_id
-                                    AND l.date_logged BETWEEN '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") +"' AND '" +  Qt.formatDateTime(lastDay, "yyyy-MM-dd") +"'
+                                    AND l.date_logged BETWEEN " + controller.dateToTimestampNoTime(firstDay) +" AND " + (controller.dateToTimestampNoTime(lastDay)-1) +"
                                 GROUP BY m.macroarea_id, m.macroarea_color
                                 HAVING total_planned_hours != 0
                                 ORDER BY logged_planned_ratio ASC;")
 
-
         weekTotalHoursStats.clear()
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
+
+
+
             weekTotalHoursStats.append({macroarea_id: row.macroarea_id,
                                         macroarea_name: row.macroarea_name,
                                         macroarea_color: "#"+row.macroarea_color,
@@ -77,40 +79,17 @@ Item{
 
     function deleteLoggedHour(date){
         db.execute("DELETE FROM logged_hours
-                    WHERE date_logged = '" + date + "';");
-
-        for(let i=0; i < weekLoggedHours.count; i++){
-            if(weekLoggedHours.get(i).date_logged === date){
-                weekLoggedHours.remove(i);
-                break;
-            }
-        }
+                    WHERE date_logged = " + controller.dateToTimestamp(date) + ";");
     }
 
     function addLoggedHour(date, activity_id){
         db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
-                    VALUES (" + activity_id + ", '" + date +"');");
-
-        let find=-1
-        let i=0;
-        for(i=0; i < weekLoggedHours.count; i++){
-            if(weekLoggedHours.get(i).date_logged === date){
-                find = i;
-                break;
-            }
-        }
-
-        let activity = getAcvitityById(activity_id);
-        if(find == -1){
-            weekLoggedHours.append({date_logged: date, macroarea_color: getMacroareaById(activity.macroarea_id).color, activity_name: activity.name});
-        }else{
-            weekLoggedHours.set(find, {date_logged: date, macroarea_color: getMacroareaById(activity.macroarea_id).color, activity_name: activity.name});
-        }
+                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"');");
     }
 
     function addPlannedMacroarea(macroarea_id, numHours, firstDay){
         db.execute("INSERT OR REPLACE INTO planned_macroareas (macroarea_id, planned_duration, week_date)
-                    VALUES (" + macroarea_id + ", " + numHours + ", '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") + "');");
+                    VALUES (" + macroarea_id + ", " + numHours + ", " + controller.dateToTimestampNoTime(firstDay) + ");");
     }
 
     function deletePlannedMacroareas(planned_macroarea_id){

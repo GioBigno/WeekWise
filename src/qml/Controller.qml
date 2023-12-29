@@ -18,9 +18,9 @@ Item{
 
         modelLogic.fillMacroareas();
         modelLogic.fillActivities();
-        modelLogic.fillWeekLoggedHours(firstDay, lastDay);
+        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
 
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         weekView = weekViewComponent.createObject(stackView);
         stackView.push(weekView);
@@ -43,19 +43,60 @@ Item{
 
     // utils functions ------------------------------------------------
 
+    function dateToTimestamp(d){
+        let dd = new Date(d);
+        return dd.getTime();
+    }
+
+    function dateToTimestampNoTime(d){
+        let dd = new Date(d);
+        dd.setHours(0);
+        dd.setMinutes(0);
+        dd.setSeconds(0);
+        d.setMilliseconds(0);
+        return dd.getTime();
+    }
+
+    function timeStamptoDate(t){
+        return new Date(t);
+    }
+
     function firstDayOfTheWeek(day){
         var d = day;
         var weekday = d.getDay() - 1;
         if(weekday < 0)
             weekday = 6;
         var diff = d.getDate() - weekday;
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
         return new Date(d.setDate(diff));
     }
 
     function lastDayOfTheWeek(day){
         var d = firstDayOfTheWeek(day);
         var diff = d.getDate() + 6;
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
         return new Date(d.setDate(diff));
+    }
+
+    function nextDay(day){
+        let d = new Date(day);
+        d.setUTCDate(d.getUTCDate() + 1);
+        return d;
+    }
+
+    function noTime(day){
+        let d = new Date(day);
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+        return d;
     }
 
     // -----------------------------------------------------------------
@@ -67,8 +108,8 @@ Item{
         lastDay = lastDayOfTheWeek(firstDay);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, lastDay);
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -80,8 +121,8 @@ Item{
         lastDay = lastDayOfTheWeek(firstDay);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, lastDay);
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -92,7 +133,8 @@ Item{
         modelLogic.deleteLoggedHour(date);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -103,7 +145,8 @@ Item{
         modelLogic.addLoggedHour(date, activity_id);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -111,10 +154,10 @@ Item{
     }
 
     function addPlannedMacroareas(macroarea_id, numHours){
-        modelLogic.addPlannedMacroarea(macroarea_id, numHours, firstDay);
+        modelLogic.addPlannedMacroarea(macroarea_id, numHours, noTime(firstDay));
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekTotalHoursStatsChanged();
@@ -124,7 +167,7 @@ Item{
         modelLogic.deletePlannedMacroareas(planned_macroarea_id);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
         weekView.weekTotalHoursStatsChanged();
