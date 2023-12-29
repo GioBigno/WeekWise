@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/qml">
         <file alias="Main.qml">qml/Main.qml</file>
-        <file alias="Home.qml">qml/Home.qml</file>
         <file alias="WeekView.qml">qml/WeekView.qml</file>
         <file alias="Calendar.qml">qml/Calendar.qml</file>
         <file alias="SideStats.qml">qml/SideStats.qml</file>
