@@ -1,9 +1,5 @@
 BUG ----------------------------
 
- - Repeater sideBars crash
-
- - add new goal with 0 logged_hours
-
 --------------------------------
 
 UI -----------------------------

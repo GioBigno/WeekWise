@@ -33,8 +33,6 @@ Item {
                 ratio_todo = (row.total_planned_hours - row.total_logged_hours) / total_planned_hours;
             }
 
-            console.log("" + row.macroarea_name + ", ratio_done=" + ratio_done)
-
             if(ratio_done != 0){
                 pieSeries.append(row.macroarea_color, ratio_done);
                 pieSeries.find(row.macroarea_color).color = row.macroarea_color;
@@ -90,7 +88,9 @@ Item {
             id: sideStatslayout
             anchors.fill: parent
 
+
             spacing: 0
+
 
             property int barHeight: 15
             property int fontSize: 30
@@ -116,6 +116,8 @@ Item {
             SideBars{
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+
+                //width: parent.width
                 //Layout.alignment: Qt.AlignBottom
             }
 
