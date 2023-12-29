@@ -136,9 +136,7 @@ Item {
                 PieSeries {
                     id: pieSeries
                 }
-
             }
-
         }
     }
 

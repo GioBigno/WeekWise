@@ -23,7 +23,7 @@ ApplicationWindow {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: homeComponent
+        //initialItem: weekView
         focus: true
 
         property var back: function(){
@@ -36,11 +36,15 @@ ApplicationWindow {
         }
 
         Keys.onBackPressed: back()
+
+        Component.onCompleted: {
+            controller.pushWeekView();
+        }
     }
 
     Component{
-        id: homeComponent
-        Home{}
+        id: weekView
+        WeekView{}
     }
 
     Controller{

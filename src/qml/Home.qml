@@ -55,9 +55,6 @@ Item {
         }
     }
 
-    Component{
-        id: weekViewComponent
-        WeekView{}
-    }
+
 
 }

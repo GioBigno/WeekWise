@@ -4,7 +4,7 @@ import QtQuick.Controls.Universal 2.12
 
 Item{
 
-    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (controller.getWeekTotalHoursStats().count+1)
+    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (controller.getWeekTotalHoursStats().count+1) - 20
 
     Column{
         id: listViewSideBars
@@ -27,11 +27,19 @@ Item{
                 width: listViewSideBars.width
                 height: listViewSideBars.fontSize*2 + listViewSideBars.barHeight
                 //anchors.fill: parent
-                color: hoverHandler.hovered ? Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.2) : "transparent"
+                color: "transparent"
                 radius: 8
 
                 HoverHandler{
                     id: hoverHandler
+
+                    onHoveredChanged: {
+                        if(hovered){
+                            goalButtons.visible = true
+                        }else{
+                            goalButtons.visible = false
+                        }
+                    }
                 }
 
                 RowLayout{
@@ -72,6 +80,7 @@ Item{
                 BProgressBar{
                     id: bPrograssBar
                     anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 5
                     width: parent.width
                     height: listViewSideBars.barHeight
 
@@ -81,6 +90,70 @@ Item{
                     borderWidth: 1
                     radius: 25
                     progress: (model.total_logged_hours/model.total_planned_hours) > 1 ? 1 : (model.total_logged_hours/model.total_planned_hours)
+                }
+
+                Rectangle{
+                    id: goalButtons
+                    anchors.fill: parent
+                    color: Qt.rgba(Universal.Dark.r, Universal.Dark.g, Universal.Dark.b, 0.7)
+                    visible: false
+                    radius: parent.radius
+
+                    RowLayout{
+                        anchors.fill: parent
+                        visible: true
+                        spacing: 20
+
+                        RoundButton{
+                            id: buttonDelete
+                            visible: true
+
+                            Layout.preferredHeight: parent.height - 20
+                            Layout.preferredWidth: height
+                            Layout.topMargin: 10
+                            Layout.bottomMargin: 10
+                            Layout.leftMargin: (parent.width - 2*height)/3
+                            Layout.rightMargin: (parent.width - 2*height)/6
+                            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+
+                            radius: 4
+                            padding: 10
+
+                            icon.source: "qrc:/icons/icons/trash.svg"
+                            icon.color: Universal.accent
+                            icon.width: parent.height - 2*padding
+                            icon.height: parent.height - 2*padding
+
+                            onClicked: {
+                                deletePlannedMacroareas(planned_macroarea_id);
+                            }
+                        }
+
+                        RoundButton{
+                            id: buttonEdit
+                            visible: true
+
+                            Layout.preferredHeight: parent.height - 20
+                            Layout.preferredWidth: height
+                            Layout.topMargin: 10
+                            Layout.bottomMargin: 10
+                            Layout.rightMargin: (parent.width - 2*height)/3
+                            Layout.leftMargin: (parent.width - 2*height)/6
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+
+                            radius: 4
+                            padding: 10
+
+                            icon.source: "qrc:/icons/icons/pencil.svg"
+                            icon.color: Universal.accent
+                            icon.width: parent.height - 2*padding
+                            icon.height: parent.height - 2*padding
+
+                            onClicked: {
+
+                            }
+                        }
+                    }
                 }
             }
         }

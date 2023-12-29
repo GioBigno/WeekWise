@@ -68,7 +68,7 @@ Item{
 
         //update
         modelLogic.fillWeekLoggedHours(firstDay, lastDay);
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -81,7 +81,7 @@ Item{
 
         //update
         modelLogic.fillWeekLoggedHours(firstDay, lastDay);
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -92,7 +92,7 @@ Item{
         modelLogic.deleteLoggedHour(date);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -103,7 +103,7 @@ Item{
         modelLogic.addLoggedHour(date, activity_id);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
 
         //notify
         weekView.weekLoggedHoursChanged();
@@ -114,10 +114,19 @@ Item{
         modelLogic.addPlannedMacroarea(macroarea_id, numHours, firstDay);
 
         //update
-        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay)
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
 
         //notify
-        weekView.weekLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
+    function deletePlannedMacroareas(planned_macroarea_id){
+        modelLogic.deletePlannedMacroareas(planned_macroarea_id);
+
+        //update
+        modelLogic.fillWeekTotalHoursStats(firstDay, lastDay);
+
+        //notify
         weekView.weekTotalHoursStatsChanged();
     }
 

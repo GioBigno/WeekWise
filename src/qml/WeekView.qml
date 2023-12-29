@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
 Item{
-    id: weekView
+    //id: weekView
 
     function weekLoggedHoursChanged(){
         calendar.weekLoggedHoursChanged()
