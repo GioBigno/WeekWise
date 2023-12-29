@@ -8,49 +8,22 @@ Item {
     RowLayout{
         anchors.fill: parent
 
-        RoundButton {
+        Column {
+            //anchors.fill: parent
 
-            implicitWidth: 200
-            implicitHeight: 200
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignLeft
-            Layout.rightMargin: 50
-            Layout.topMargin: 100
-            Layout.bottomMargin: 100
-            Layout.leftMargin: 100
-            radius: 5
-
-            text: "Week"
-            font.pixelSize: Math.min(width, height)/6
-            font.family: customFont.name
-
-            onPressed: {
-                controller.pushWeekView()
+            TabButton {
+                text: "Tab 1"
+                onClicked: console.log("Tab 1 clicked")
             }
-        }
 
-        RoundButton {
+            TabButton {
+                text: "Tab 2"
+                onClicked: console.log("Tab 2 clicked")
+            }
 
-            implicitWidth: 200
-            implicitHeight: 200
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignLeft
-            Layout.rightMargin: 100
-            Layout.topMargin: 100
-            Layout.bottomMargin: 100
-            Layout.leftMargin: 50
-            radius: 5
-
-            text: "Stats"
-            font.pixelSize: Math.min(width, height)/6
-            font.family: customFont.name
-
-            onPressed: {
-                controller.pushStatsView()
+            TabButton {
+                text: "Tab 3"
+                onClicked: console.log("Tab 3 clicked")
             }
         }
     }

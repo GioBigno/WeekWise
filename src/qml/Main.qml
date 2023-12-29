@@ -20,25 +20,54 @@ ApplicationWindow {
         source: "qrc:/fonts/font.ttf"
     }
 
-    StackView {
-        id: stackView
+    RowLayout{
         anchors.fill: parent
-        //initialItem: weekView
-        focus: true
+        spacing: 0
 
-        property var back: function(){
-            if(stackView.depth > 1) {
-                stackView.pop();
+        ColumnLayout{
+            //anchors.fill: parent
+            Layout.preferredWidth: 40
+
+            Rectangle{
+                // !! this rectangle is here just for padding !!
+                Layout.alignment: Qt.AlignBottom
+                Layout.fillHeight: true
+                Layout.preferredHeight: parent.width
+                Layout.preferredWidth: parent.width
+
+                color: "transparent"
             }
-            if(stackView.depth === 1){
-                // niente
+
+
+
+            TabButton {
+                Layout.alignment: Qt.AlignBottom
+                Layout.fillHeight: true
+                Layout.preferredHeight: parent.width
+                Layout.preferredWidth: parent.width
+                Layout.maximumHeight: parent.width
+
+                IconImage{
+                    anchors.fill: parent
+                    source: "qrc:/icons/icons/setting3.svg"
+                    color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+                }
+
+                onClicked: console.log("Tab 2 clicked")
             }
         }
 
-        Keys.onBackPressed: back()
+        StackView {
+            id: stackView
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.leftMargin: 5
+            //initialItem: homeComponent
+            focus: true
 
-        Component.onCompleted: {
-            controller.pushWeekView();
+            Component.onCompleted: {
+                controller.pushWeekView();
+            }
         }
     }
 

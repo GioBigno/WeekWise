@@ -16,6 +16,7 @@ Item{
 
     RowLayout{
         anchors.fill: parent
+        anchors.leftMargin: 0
 
         Calendar{
             id: calendar
@@ -31,5 +32,6 @@ Item{
             Layout.minimumWidth: 50
             Layout.preferredWidth: parent.width/4
         }
+
     }
 }
