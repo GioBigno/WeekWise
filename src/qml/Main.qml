@@ -38,8 +38,6 @@ ApplicationWindow {
                 color: "transparent"
             }
 
-
-
             TabButton {
                 Layout.alignment: Qt.AlignBottom
                 Layout.fillHeight: true

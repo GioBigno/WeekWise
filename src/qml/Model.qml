@@ -109,7 +109,7 @@ Item{
     }
 
     function addPlannedMacroarea(macroarea_id, numHours, firstDay){
-        db.execute("INSERT INTO planned_macroareas (macroarea_id, planned_duration, week_date)
+        db.execute("INSERT OR REPLACE INTO planned_macroareas (macroarea_id, planned_duration, week_date)
                     VALUES (" + macroarea_id + ", " + numHours + ", '" + Qt.formatDateTime(firstDay, "yyyy-MM-dd") + "');");
     }
 

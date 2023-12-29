@@ -125,7 +125,7 @@ Item{
                             icon.height: parent.height - 2*padding
 
                             onClicked: {
-                                deletePlannedMacroareas(planned_macroarea_id);
+                                controller.deletePlannedMacroareas(planned_macroarea_id);
                             }
                         }
 
@@ -150,10 +150,17 @@ Item{
                             icon.height: parent.height - 2*padding
 
                             onClicked: {
-
+                                popupNewGoalDetailEdit.x = 0;
+                                popupNewGoalDetailEdit.y = y;
+                                popupNewGoalDetailEdit.width = x - 5;
+                                popupNewGoalDetailEdit.macroarea_id = model.macroarea_id
+                                popupNewGoalDetailEdit.open();
                             }
                         }
                     }
+                }
+                PopupSideStatsNewGoalDetail{
+                    id: popupNewGoalDetailEdit
                 }
             }
         }

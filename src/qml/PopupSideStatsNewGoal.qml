@@ -10,7 +10,7 @@ Popup {
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     background: Rectangle {
-        color: Qt.rgba(Universal.background.r, Universal.background.g, Universal.background.b, 0.7)
+        color: Universal.background
         border.color: Universal.background
         radius: 4
     }
