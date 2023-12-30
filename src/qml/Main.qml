@@ -24,35 +24,83 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 0
 
-        ColumnLayout{
-            //anchors.fill: parent
+        Rectangle{
+
             Layout.preferredWidth: 40
+            Layout.fillHeight: true
+            color: Qt.rgba(Qt.color("black").r, Qt.color("black").g, Qt.color("black").b, 0.15)
 
-            Rectangle{
-                // !! this rectangle is here just for padding !!
-                Layout.alignment: Qt.AlignBottom
-                Layout.fillHeight: true
-                Layout.preferredHeight: parent.width
-                Layout.preferredWidth: parent.width
+            ColumnLayout{
+                id: tabBarLayout
+                anchors.fill: parent
+                spacing: 10
 
-                color: "transparent"
-            }
+                Rectangle{
+                    // !! this rectangle is here just for padding !!
+                    Layout.alignment: Qt.AlignTop
+                    Layout.fillHeight: true
+                    Layout.preferredHeight: parent.width
+                    Layout.preferredWidth: parent.width
 
-            TabButton {
-                Layout.alignment: Qt.AlignBottom
-                Layout.fillHeight: true
-                Layout.preferredHeight: parent.width
-                Layout.preferredWidth: parent.width
-                Layout.maximumHeight: parent.width
-
-                IconImage{
-                    anchors.fill: parent
-                    source: "qrc:/icons/icons/setting3.svg"
-                    color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+                    color: "transparent"
                 }
 
-                onClicked: console.log("Tab 2 clicked")
+                TabButton {
+                    //Layout.alignment: Qt.AlignBottom
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignBottom
+                    Layout.preferredHeight: parent.width
+                    Layout.preferredWidth: parent.width
+                    Layout.maximumHeight: parent.width
+
+                    IconImage{
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        source: "qrc:/icons/icons/calendar.svg"
+                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+                    }
+
+                    checked: true
+                    onClicked: console.log("calendar")
+                }
+
+                TabButton {
+                    //Layout.alignment: Qt.AlignBottom
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignBottom
+                    Layout.preferredHeight: parent.width
+                    Layout.preferredWidth: parent.width
+                    Layout.maximumHeight: parent.width
+
+                    IconImage{
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        source: "qrc:/icons/icons/statistics.png"
+                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+                    }
+
+                    onClicked: console.log("stats")
+                }
+
+                TabButton {
+                    Layout.alignment: Qt.AlignBottom
+                    Layout.fillHeight: true
+                    Layout.preferredHeight: parent.width
+                    Layout.preferredWidth: parent.width
+                    Layout.maximumHeight: parent.width
+                    Layout.bottomMargin: 10
+
+                    IconImage{
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        source: "qrc:/icons/icons/task_management.svg"
+                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+                    }
+
+                    onClicked: console.log("management")
+                }
             }
+
         }
 
         StackView {

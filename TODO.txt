@@ -1,8 +1,12 @@
 BUG ----------------------------
 
+ - edit planned_macroareas
+
 --------------------------------
 
 UI -----------------------------
+
+ - sort activity by macroarea (new logged_hour popup)
 
  - responsive text
 
@@ -20,13 +24,11 @@ functionality ------------------
 
  - create new macroareas
 
- - edit planned_hours
-
- - add sideStats planned_activity
-
  - "stats" page
 
  - find a way to configure and synchronize the database
+
+ - cmake BDatabase plugin
 
  - translation
 

@@ -4,7 +4,6 @@ import QtCharts
 import QtQuick.Controls.Universal 2.12
 
 Item {
-
     function weekTotalHoursStatsChanged(){
         sideBars.weekTotalHoursStatsChanged();
 
@@ -118,6 +117,56 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.preferredHeight: height
+            }
+
+            Rectangle{
+                id: footerRect
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                //width: listViewSideBars.width
+                height: 65
+                color: "transparent"
+
+                Button{
+                    id: buttonAddSideStatsProgressBar
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+
+                    width: parent.height / 1.5
+                    height: parent.height / 1.5
+
+                    background: Rectangle{
+                        color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5  )
+                        opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
+                        radius: 10
+                    }
+
+                    IconImage{
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        source: "qrc:/icons/icons/plus.svg"
+                        color: Universal.background
+                    }
+
+                    onClicked:{
+                        popupNewGoal.x = 0;
+                        popupNewGoal.y = y;
+                        popupNewGoal.width = x - 5;
+                        popupNewGoalDetail.x = 0;
+                        popupNewGoalDetail.y = y;
+                        popupNewGoalDetail.width = x - 5;
+                        popupNewGoal.open();
+                    }
+                }
+
+                PopupSideStatsNewGoal{
+                    id: popupNewGoal
+                }
+
+                PopupSideStatsNewGoalDetail{
+                    id: popupNewGoalDetail
+                }
             }
 
             ChartView {

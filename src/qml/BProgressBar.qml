@@ -17,6 +17,12 @@ Item{
         anchors.fill: parent
         antialiasing: true
 
+        gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: bProgressBarItem.progress -0.4; color: bProgressBarItem.fillColor }
+                GradientStop { position: bProgressBarItem.progress != 0 ? (bProgressBarItem.progress + 0.1) : 0; color:  bProgressBarItem.backgroundColor}
+        }
+
         color: bProgressBarItem.backgroundColor
         radius: bProgressBarItem.radius
     }

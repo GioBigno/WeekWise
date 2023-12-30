@@ -23,6 +23,7 @@ Item{
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.minimumWidth: 50
+            Layout.bottomMargin: 5
         }
 
         SideStats{

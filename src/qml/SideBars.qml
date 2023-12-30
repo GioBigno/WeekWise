@@ -14,16 +14,16 @@ Item{
         for (let i = 0; i < result.count; ++i) {
             let row = result.get(i);
 
-            weekTotalHours.append({planned_macroarea_id: row.planned_macroarea_id, macroarea_name: row.macroarea_name, macroarea_color: row.macroarea_color,
+            weekTotalHours.append({planned_macroarea_id: row.planned_macroarea_id, macroarea_id: row.macroarea_id, macroarea_name: row.macroarea_name, macroarea_color: row.macroarea_color,
                                    total_logged_hours: row.total_logged_hours, total_planned_hours: row.total_planned_hours});
         }
     }
 
-    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (weekTotalHours.count+1) - 20
+    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (weekTotalHours.count)
 
     ListModel{
         id: weekTotalHours
-        //{planned_macroarea_id, macroarea_name, macroarea_color, total_logged_hours, total_planned_hours}
+        //{planned_macroarea_id, macroarea_id, macroarea_name, macroarea_color, total_logged_hours, total_planned_hours}
     }
 
     Column{
@@ -133,7 +133,7 @@ Item{
                             Layout.topMargin: 10
                             Layout.bottomMargin: 10
                             Layout.leftMargin: (parent.width - 2*height)/3
-                            Layout.rightMargin: (parent.width - 2*height)/6
+                            Layout.rightMargin: (parent.width - 2*height)/12
                             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
                             radius: 4
@@ -158,7 +158,7 @@ Item{
                             Layout.topMargin: 10
                             Layout.bottomMargin: 10
                             Layout.rightMargin: (parent.width - 2*height)/3
-                            Layout.leftMargin: (parent.width - 2*height)/6
+                            Layout.leftMargin: (parent.width - 2*height)/12
                             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
                             radius: 4
@@ -183,56 +183,6 @@ Item{
                 PopupSideStatsNewGoalDetail{
                     id: popupNewGoalDetailEdit
                 }
-            }
-        }
-
-        Rectangle{
-            id: footerRect
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            width: listViewSideBars.width
-            height: listViewSideBars.fontSize*2 + listViewSideBars.barHeight
-            color: "transparent"
-
-            Button{
-                id: buttonAddSideStatsProgressBar
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-
-                width: parent.height / 1.5
-                height: parent.height / 1.5
-
-                background: Rectangle{
-                    color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5  )
-                    opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
-                    radius: 10
-                }
-
-                IconImage{
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    source: "qrc:/icons/icons/plus.svg"
-                    color: Universal.background
-                }
-
-                onClicked:{
-                    popupNewGoal.x = 0;
-                    popupNewGoal.y = y;
-                    popupNewGoal.width = x - 5;
-                    popupNewGoalDetail.x = 0;
-                    popupNewGoalDetail.y = y;
-                    popupNewGoalDetail.width = x - 5;
-                    popupNewGoal.open();
-                }
-            }
-
-            PopupSideStatsNewGoal{
-                id: popupNewGoal
-            }
-
-            PopupSideStatsNewGoalDetail{
-                id: popupNewGoalDetail
             }
         }
     }

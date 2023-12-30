@@ -99,15 +99,15 @@ Item {
 
         columns: 8
         rows: numHours + 1
-        columnSpacing: 3
-        rowSpacing: 3
+        columnSpacing: 4
+        rowSpacing: 4
 
         Repeater{
             model: cellsHours
 
             Rectangle{
                 id: rectHour
-                color: model.macroarea_color
+                //color: model.macroarea_color
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
@@ -115,6 +115,15 @@ Item {
 
                 Layout.column: (model.index % 7) + 1
                 Layout.row: model.index/7 + 1
+
+                gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0; color: model.macroarea_color }
+                        GradientStop { position: 2; color: model.macroarea_color === cellBackground ? cellBackground :
+                                                           cellBackground }
+                    }
+
+                smooth: true
 
                 Text{
                     anchors.fill: parent
@@ -195,7 +204,7 @@ Item {
                     color: Universal.foreground
                     text: (model.index + startTime) + ":00"
 
-                    font.pixelSize: 20
+                    font.pixelSize: 16
                     font.family: customFont.name
                 }
             }
@@ -204,10 +213,12 @@ Item {
         Row{
             Layout.column: 0
             Layout.row: 0
+            width: 70
+            height: 30
 
             Button{
-                width: 30
-                height: 30
+                width: 25
+                height: 25
 
                 background: Rectangle{color: "transparent"}
 
@@ -222,8 +233,8 @@ Item {
                 }
             }
             Button{
-                width: 30
-                height: 30
+                width: 25
+                height: 25
 
                 background: Rectangle{color: "transparent"}
 
