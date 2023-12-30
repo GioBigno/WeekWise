@@ -8,6 +8,7 @@ set(QML_IMPORT_PATH "${CMAKE_SOURCE_DIR}/plugins")
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Qml)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
@@ -36,7 +37,8 @@ add_subdirectory(plugins/BDatabase)
 
 target_link_libraries(WeekWise
     PRIVATE Qt6::Quick
-    PRIVATE BDatabaseplugin)
+    PRIVATE BDatabaseplugin
+    PRIVATE Qt6::Widgets)
 
 include(GNUInstallDirs)
 install(TARGETS WeekWise
@@ -54,7 +56,7 @@ qt6_generate_deploy_qml_app_script(
 )
 install(SCRIPT ${deploy_script})
 
-configure_file(${CMAKE_SOURCE_DIR}/dbconfig.ini ${CMAKE_BINARY_DIR}/dbconfig.ini COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/weekwise.db ${CMAKE_BINARY_DIR}/weekwise.db COPYONLY)
 
-# Install config.ini to the project directory
-install(FILES ${CMAKE_BINARY_DIR}/dbconfig.ini DESTINATION ${CMAKE_INSTALL_BINDIR})
+# Install db to the project directory
+install(FILES ${CMAKE_BINARY_DIR}/weekwise.db DESTINATION ${CMAKE_INSTALL_BINDIR})
