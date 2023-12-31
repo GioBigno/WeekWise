@@ -14,25 +14,30 @@ Item{
         sideStats.weekTotalHoursStatsChanged()
     }
 
-    RowLayout{
-        anchors.fill: parent
-        anchors.leftMargin: 0
+    Calendar{
+        id: calendar
 
-        Calendar{
-            id: calendar
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.minimumWidth: 50
-            Layout.bottomMargin: 5
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            bottomMargin: 5
         }
 
-        SideStats{
-            id: sideStats
-            //Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.minimumWidth: 50
-            Layout.preferredWidth: parent.width/4
-        }
-
+        width: parent.width * 3/4
     }
+
+    SideStats{
+        id: sideStats
+
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: calendar.right
+            right: parent.right
+        }
+
+        width: parent.width * 1/4
+    }
+
 }

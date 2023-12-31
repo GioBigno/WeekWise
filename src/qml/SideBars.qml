@@ -15,11 +15,11 @@ Item{
             let row = result.get(i);
 
             weekTotalHours.append({planned_macroarea_id: row.planned_macroarea_id, macroarea_id: row.macroarea_id, macroarea_name: row.macroarea_name, macroarea_color: row.macroarea_color,
-                                   total_logged_hours: row.total_logged_hours, total_planned_hours: row.total_planned_hours});
+                                      total_logged_hours: row.total_logged_hours, total_planned_hours: row.total_planned_hours});
         }
     }
 
-    height: (listViewSideBars.fontSize*2 + listViewSideBars.barHeight + listViewSideBars.space) * (weekTotalHours.count)
+    height: (weekTotalHours.count * (columnSideBars.rectHeight + columnSideBars.spacing)) + footerRect.height
 
     ListModel{
         id: weekTotalHours
@@ -27,26 +27,29 @@ Item{
     }
 
     Column{
-        id: listViewSideBars
+        id: columnSideBars
         anchors.margins: 5
         anchors.fill: parent
         spacing: space
 
-        property int fontSize: 30
+        property int fontSize: 26
         property int barHeight: 15
-        property int space: 10
+        property int space: 8
+        property int rectHeight: columnSideBars.fontSize*2 + columnSideBars.barHeight
 
         Repeater{
             model: weekTotalHours
-            clip: true
 
             delegate: Rectangle{
                 id: rectGoal
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                width: listViewSideBars.width
-                height: listViewSideBars.fontSize*2 + listViewSideBars.barHeight
-                //anchors.fill: parent
+
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                }
+
+                height: columnSideBars.rectHeight
+
                 color: "transparent"
                 radius: 8
 
@@ -62,47 +65,48 @@ Item{
                     }
                 }
 
-                RowLayout{
-                    anchors.fill: parent
+                Text{
+                    id: textLabel
 
-                    Text{
-                        id: textLabel
-                        y: -(listViewSideBars.fontSize/2)
-                        //horizontalAlignment: Text.AlignLeft
-                        Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-                        Layout.maximumWidth: parent.width - textRatio.width - 10
-
-                        color: Universal.accent
-                        text: model.macroarea_name
-                        clip: true
-                        elide: Text.ElideRight
-
-                        font.pixelSize: listViewSideBars.fontSize
-                        font.family: customFont.name
+                    anchors {
+                        left: parent.left
+                        top: parent.top
                     }
 
-                    Text{
-                        id: textRatio
-                        y: -(listViewSideBars.fontSize/2)
-                        //horizontalAlignment: Text.AlignRight
-                        Layout.alignment: Qt.AlignRight | Qt.AlignTop
+                    width: parent.width - textRatio.width - 10
 
+                    color: Universal.accent
+                    text: model.macroarea_name
+                    clip: true
+                    elide: Text.ElideRight
 
-                        color: Universal.foreground
-                        text: "" + model.total_logged_hours + " / " + model.total_planned_hours
-                        clip: true
-
-                        font.pixelSize: listViewSideBars.fontSize
-                        font.family: customFont.name
-                    }
+                    font.pixelSize: columnSideBars.fontSize
+                    font.family: customFont.name
                 }
+
+                Text{
+                    id: textRatio
+
+                    anchors {
+                        right: parent.right
+                        top: parent.top
+                    }
+
+                    color: Universal.foreground
+                    text: "" + model.total_logged_hours + " / " + model.total_planned_hours
+                    clip: true
+
+                    font.pixelSize: columnSideBars.fontSize
+                    font.family: customFont.name
+                }
+
 
                 BProgressBar{
                     id: bPrograssBar
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 5
                     width: parent.width
-                    height: listViewSideBars.barHeight
+                    height: columnSideBars.barHeight
 
                     borderColor: Universal.foreground
                     backgroundColor: Universal.background
@@ -119,70 +123,140 @@ Item{
                     visible: false
                     radius: parent.radius
 
-                    RowLayout{
-                        anchors.fill: parent
+                    property double buttonDim: height * 2/3
+                    property double spaceBeetWeen: (width - 2*buttonDim) / 11
+                    property double sideMargin: spaceBeetWeen*5
+                    property double verticalMargin: height / 6
+
+                    RoundButton{
+                        id: buttonDelete
                         visible: true
-                        spacing: 20
 
-                        RoundButton{
-                            id: buttonDelete
-                            visible: true
-
-                            Layout.preferredHeight: parent.height - 20
-                            Layout.preferredWidth: height
-                            Layout.topMargin: 10
-                            Layout.bottomMargin: 10
-                            Layout.leftMargin: (parent.width - 2*height)/3
-                            Layout.rightMargin: (parent.width - 2*height)/12
-                            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-
-                            radius: 4
-                            padding: 10
-
-                            icon.source: "qrc:/icons/icons/trash.svg"
-                            icon.color: Universal.accent
-                            icon.width: parent.height - 2*padding
-                            icon.height: parent.height - 2*padding
-
-                            onClicked: {
-                                controller.deletePlannedMacroareas(model.planned_macroarea_id);
-                            }
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            left: parent.left
+                            topMargin: goalButtons.verticalMargin
+                            bottomMargin: goalButtons.verticalMargin
+                            leftMargin: goalButtons.spaceBeetWeen*5
+                            rightMargin: goalButtons.spaceBeetWeen
                         }
 
-                        RoundButton{
-                            id: buttonEdit
-                            visible: true
+                        height: goalButtons.buttonDim
+                        width: goalButtons.buttonDim
 
-                            Layout.preferredHeight: parent.height - 20
-                            Layout.preferredWidth: height
-                            Layout.topMargin: 10
-                            Layout.bottomMargin: 10
-                            Layout.rightMargin: (parent.width - 2*height)/3
-                            Layout.leftMargin: (parent.width - 2*height)/12
-                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        radius: 4
+                        padding: 10
 
-                            radius: 4
-                            padding: 10
+                        icon.source: "qrc:/icons/icons/trash.svg"
+                        icon.color: Universal.accent
+                        icon.width: parent.height - 2*padding
+                        icon.height: parent.height - 2*padding
 
-                            icon.source: "qrc:/icons/icons/pencil.svg"
-                            icon.color: Universal.accent
-                            icon.width: parent.height - 2*padding
-                            icon.height: parent.height - 2*padding
-
-                            onClicked: {
-                                popupNewGoalDetailEdit.x = 0;
-                                popupNewGoalDetailEdit.y = y;
-                                popupNewGoalDetailEdit.width = x - 5;
-                                popupNewGoalDetailEdit.macroarea_id = model.macroarea_id;
-                                popupNewGoalDetailEdit.setStartValue(model.total_planned_hours);
-                                popupNewGoalDetailEdit.open();
-                            }
+                        onClicked: {
+                            controller.deletePlannedMacroareas(model.planned_macroarea_id);
                         }
                     }
+
+                    RoundButton{
+                        id: buttonEdit
+                        visible: true
+
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            right: parent.right
+                            topMargin: goalButtons.verticalMargin
+                            bottomMargin: goalButtons.verticalMargin
+                            leftMargin: goalButtons.spaceBeetWeen
+                            rightMargin: goalButtons.spaceBeetWeen*5
+                        }
+
+                        height: goalButtons.buttonDim
+                        width: goalButtons.buttonDim
+
+                        radius: 4
+                        padding: 10
+
+                        icon.source: "qrc:/icons/icons/pencil.svg"
+                        icon.color: Universal.accent
+                        icon.width: parent.height - 2*padding
+                        icon.height: parent.height - 2*padding
+
+                        onClicked: {
+                            popupNewGoalDetailEdit.x = x - 200;
+                            popupNewGoalDetailEdit.y = y;
+                            popupNewGoalDetailEdit.width = 200;
+                            popupNewGoalDetailEdit.height = 130;
+                            popupNewGoalDetailEdit.macroarea_id = model.macroarea_id;
+                            popupNewGoalDetailEdit.setStartValue(model.total_planned_hours);
+                            popupNewGoalDetailEdit.open();
+                        }
+                    }
+
                 }
                 PopupSideStatsNewGoalDetail{
                     id: popupNewGoalDetailEdit
                 }
+            }
+        }
+
+        Rectangle{
+            id: footerRect
+
+            anchors{
+                left: parent.left
+                right: parent.right
+            }
+
+            height: 65
+
+            color: "transparent"
+            radius: 8
+
+            Button{
+                id: buttonAddSideStatsProgressBar
+
+                anchors {
+                    bottom: parent.bottom
+                    right: parent.right
+                    rightMargin: 10
+                }
+
+                width: parent.height / 1.5
+                height: parent.height / 1.5
+
+                background: Rectangle{
+                    color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5  )
+                    opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
+                    radius: 10
+                }
+
+                IconImage{
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    source: "qrc:/icons/icons/plus.svg"
+                    color: Universal.background
+                }
+
+                onClicked:{
+                    popupNewGoal.x = 0;
+                    popupNewGoal.y = y;
+                    popupNewGoal.width = x - 5;
+                    popupNewGoalDetail.x = 0;
+                    popupNewGoalDetail.y = y;
+                    popupNewGoalDetail.width = x - 5;
+                    popupNewGoalDetail.height = 130;
+                    popupNewGoal.open();
+                }
+            }
+
+            PopupSideStatsNewGoal{
+                id: popupNewGoal
+            }
+
+            PopupSideStatsNewGoalDetail{
+                id: popupNewGoalDetail
             }
         }
     }

@@ -20,100 +20,105 @@ ApplicationWindow {
         source: "qrc:/fonts/font.ttf"
     }
 
-    RowLayout{
-        anchors.fill: parent
-        spacing: 0
+    Rectangle{
+        id: tabBar
 
-        Rectangle{
-
-            Layout.preferredWidth: 40
-            Layout.fillHeight: true
-            color: Qt.rgba(Qt.color("black").r, Qt.color("black").g, Qt.color("black").b, 0.15)
-
-            ColumnLayout{
-                id: tabBarLayout
-                anchors.fill: parent
-                spacing: 10
-
-                Rectangle{
-                    // !! this rectangle is here just for padding !!
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillHeight: true
-                    Layout.preferredHeight: parent.width
-                    Layout.preferredWidth: parent.width
-
-                    color: "transparent"
-                }
-
-                TabButton {
-                    //Layout.alignment: Qt.AlignBottom
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignBottom
-                    Layout.preferredHeight: parent.width
-                    Layout.preferredWidth: parent.width
-                    Layout.maximumHeight: parent.width
-
-                    IconImage{
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        source: "qrc:/icons/icons/calendar.svg"
-                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
-                    }
-
-                    checked: true
-                    onClicked: console.log("calendar")
-                }
-
-                TabButton {
-                    //Layout.alignment: Qt.AlignBottom
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignBottom
-                    Layout.preferredHeight: parent.width
-                    Layout.preferredWidth: parent.width
-                    Layout.maximumHeight: parent.width
-
-                    IconImage{
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        source: "qrc:/icons/icons/statistics.png"
-                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
-                    }
-
-                    onClicked: console.log("stats")
-                }
-
-                TabButton {
-                    Layout.alignment: Qt.AlignBottom
-                    Layout.fillHeight: true
-                    Layout.preferredHeight: parent.width
-                    Layout.preferredWidth: parent.width
-                    Layout.maximumHeight: parent.width
-                    Layout.bottomMargin: 10
-
-                    IconImage{
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        source: "qrc:/icons/icons/task_management.svg"
-                        color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
-                    }
-
-                    onClicked: console.log("management")
-                }
-            }
-
+        anchors{
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
         }
 
-        StackView {
-            id: stackView
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.leftMargin: 5
-            //initialItem: homeComponent
-            focus: true
+        width: 40
 
-            Component.onCompleted: {
-                controller.pushWeekView();
+        color: Qt.rgba(Qt.color("black").r, Qt.color("black").g, Qt.color("black").b, 0.15)
+
+        TabButton {
+            id: tabButtonCalendar
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: tabButtonStats.top
+                bottomMargin: 10
             }
+
+            width: parent.width
+            height: parent.width
+
+            IconImage{
+                anchors.fill: parent
+                anchors.margins: 5
+                source: "qrc:/icons/icons/calendar.svg"
+                color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+            }
+
+            checked: true
+            onClicked: console.log("calendar")
+        }
+
+        TabButton {
+            id: tabButtonStats
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: tabButtonManagement.top
+                bottomMargin: 10
+            }
+
+            width: parent.width
+            height: parent.width
+
+            IconImage{
+                anchors.fill: parent
+                anchors.margins: 5
+                source: "qrc:/icons/icons/statistics.png"
+                color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+            }
+
+            onClicked: console.log("stats")
+        }
+
+        TabButton {
+            id: tabButtonManagement
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                bottomMargin: 10
+            }
+
+            width: parent.width
+            height: parent.width
+
+            IconImage{
+                anchors.fill: parent
+                anchors.margins: 5
+                source: "qrc:/icons/icons/task_management.svg"
+                color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
+            }
+
+            onClicked: console.log("management")
+        }
+    }
+
+    StackView {
+        id: stackView
+
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left:tabBar.right
+            right: parent.right
+            leftMargin: 5
+        }
+
+        focus: true
+
+        Component.onCompleted: {
+            controller.pushWeekView();
         }
     }
 

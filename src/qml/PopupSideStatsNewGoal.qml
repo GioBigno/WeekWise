@@ -4,7 +4,6 @@ import QtQuick.Controls.Universal 2.12
 
 Popup {
     id: popUpNewGoal
-    width: 200
     height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
     modal: true
     focus: true
@@ -41,7 +40,7 @@ Popup {
                 clip: true
                 text: model.name
 
-                font.pixelSize: 25
+                font.pixelSize: 20
                 font.family: customFont.name
             }
 
@@ -49,13 +48,10 @@ Popup {
                 anchors.fill: parent
 
                 onClicked: {
-
                     popupNewGoalDetail.macroarea_id = model.id;
                     popupNewGoalDetail.setStartValue(5);
                     popUpNewGoal.close();
                     popupNewGoalDetail.open();
-
-
                 }
             }
         }

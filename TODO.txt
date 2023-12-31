@@ -1,14 +1,8 @@
 BUG ----------------------------
 
- - edit planned_macroareas
-
 --------------------------------
 
 UI -----------------------------
-
- - sort activity by macroarea (new logged_hour popup)
-
- - responsive text
 
  - find a better font
 

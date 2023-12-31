@@ -5,7 +5,6 @@ import QtQuick.Controls.Universal 2.12
 
 Popup {
     id: popUpNewGoalDetail
-    width: 200
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
@@ -22,69 +21,79 @@ Popup {
         hoursSpinBox.value = x;
     }
 
-    ColumnLayout{
-        anchors.fill: parent
-
-        RowLayout{
-            id: rowLayout
-            height: implicitHeight
-            width: parent.width
-
-            Text{
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                text: qsTr("Hours:")
-
-                color: Universal.foreground
-                font.pixelSize: 30
-                font.family: customFont.name
-            }
-
-            SpinBox{
-                id: hoursSpinBox
-                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                background: Rectangle{
-                    color: "transparent"
-                }
-
-                font.pixelSize: 25
-                font.family: customFont.name
-
-                from: 1
-                to: 24*7
-                value: 5
-
-                onValueChanged: {
-                    numHours = value
-                }
-            }
+    Text{
+        id: textNumHours
+        anchors {
+            top: parent.top
+            left:parent.left
         }
 
-        RoundButton{
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            implicitHeight: 30
-            radius: 4
+        text: qsTr("Hours:")
 
-            background: Rectangle{
-                anchors.fill: parent
-                color: parent.hovered ? Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.6) :
-                                        Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.4)
-                radius: 4
-            }
-
-            text: qsTr("Confirm")
-            font.pixelSize: 23
-            font.family: customFont.name
-
-            onClicked: {
-                if(popUpNewGoalDetail.macroarea_id === -1){
-                    console.log("error: trying to add macroarea_id=-1")
-                }else{
-                    controller.addPlannedMacroareas(popUpNewGoalDetail.macroarea_id, numHours);
-                }
-                popUpNewGoalDetail.close();    
-            }
-        }
-
+        color: Universal.foreground
+        font.pixelSize: 30
+        font.family: customFont.name
     }
+
+    SpinBox{
+        id: hoursSpinBox
+
+        anchors {
+            top: parent.top
+            right: parent.right
+            left: textNumHours.right
+        }
+
+        background: Rectangle{
+            color: "transparent"
+        }
+
+        font.pixelSize: 25
+        font.family: customFont.name
+
+        from: 1
+        to: 24*7
+        value: 5
+
+        onValueChanged: {
+            numHours = value
+        }
+    }
+
+    RoundButton{
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+            leftMargin: parent.height / 3
+            rightMargin: parent.height / 3
+        }
+
+        height: 30
+
+        radius: 4
+
+        background: Rectangle{
+            anchors.fill: parent
+            color: parent.hovered ? Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.6) :
+                                    Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.4)
+            radius: 4
+        }
+
+        text: qsTr("Confirm")
+        font.pixelSize: 23
+        font.family: customFont.name
+
+        onClicked: {
+            if(popUpNewGoalDetail.macroarea_id === -1){
+                console.log("error: trying to add macroarea_id=-1")
+            }else{
+                controller.addPlannedMacroareas(popUpNewGoalDetail.macroarea_id, numHours);
+            }
+            popUpNewGoalDetail.close();
+        }
+    }
+
 }
 

@@ -7,6 +7,7 @@ Item {
     function weekTotalHoursStatsChanged(){
         sideBars.weekTotalHoursStatsChanged();
 
+
         pieSeries.clear();
         let result = controller.getWeekTotalHoursStats();
 
@@ -81,105 +82,54 @@ Item {
                 implicitHeight: 50
                 radius: width/2
                 color: (scrollBar.hovered || scrollBar.pressed) ? Qt.rgba(Qt.color("gray").r, Qt.color("gray").g, Qt.color("gray").b, 0.6) :
-                                           "transparent"
+                                                                  "transparent"
             }
         }
 
         ColumnLayout{
-            id: sideStatslayout
+
             anchors.fill: parent
-
-            spacing: 0
-
-            property int barHeight: 15
-            property int fontSize: 30
 
             Rectangle{
                 id: headerRect
-                Layout.alignment: Qt.AlignTop
-                width: sideStatslayout.width
-                height: sideStatslayout.fontSize*2
+
+                Layout.preferredHeight: textWeeklygoal.implicitHeight / 2
+                Layout.fillWidth: true
+
                 color: "transparent"
 
                 Text{
-                    y: -(sideStatslayout.fontSize)
+                    id: textWeeklygoal
+
+                    anchors.centerIn: parent
+
                     text: qsTr("Weekly goal")
 
                     elide: Text.ElideRight
                     color: Universal.foreground
-                    font.pixelSize: sideStatslayout.fontSize * 2
+                    font.pixelSize: parent.width / 5
                     font.family: customFont.name
                 }
             }
 
             SideBars{
                 id: sideBars
-                Layout.fillHeight: true
+
                 Layout.fillWidth: true
-                Layout.preferredHeight: height
-            }
-
-            Rectangle{
-                id: footerRect
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                //width: listViewSideBars.width
-                height: 65
-                color: "transparent"
-
-                Button{
-                    id: buttonAddSideStatsProgressBar
-                    anchors.bottom: parent.bottom
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-
-                    width: parent.height / 1.5
-                    height: parent.height / 1.5
-
-                    background: Rectangle{
-                        color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5  )
-                        opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
-                        radius: 10
-                    }
-
-                    IconImage{
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        source: "qrc:/icons/icons/plus.svg"
-                        color: Universal.background
-                    }
-
-                    onClicked:{
-                        popupNewGoal.x = 0;
-                        popupNewGoal.y = y;
-                        popupNewGoal.width = x - 5;
-                        popupNewGoalDetail.x = 0;
-                        popupNewGoalDetail.y = y;
-                        popupNewGoalDetail.width = x - 5;
-                        popupNewGoal.open();
-                    }
-                }
-
-                PopupSideStatsNewGoal{
-                    id: popupNewGoal
-                }
-
-                PopupSideStatsNewGoalDetail{
-                    id: popupNewGoalDetail
-                }
+                Layout.preferredHeight: sideBars.height
             }
 
             ChartView {
                 id: chart
-                y: headerRect.height + sideBars.height + 2*sideStatslayout.spacing
-                Layout.preferredHeight: width
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.preferredHeight: width
+
                 antialiasing: true
                 backgroundColor: "transparent"
-                legend.visible: false
-
                 plotAreaColor: "transparent"
+                legend.visible: false
 
                 margins { right: 0; bottom: 0; left: 0; top: 0 }
                 anchors.margins: 0
@@ -188,8 +138,15 @@ Item {
                 PieSeries {
                     id: pieSeries
                 }
+
+                Component.onCompleted: {
+                    console.log("alt: " + height)
+                }
+
             }
+
         }
+
     }
 
 }

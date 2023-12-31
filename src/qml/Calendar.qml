@@ -5,11 +5,14 @@ import QtQuick.Controls.Universal 2.12
 
 Item {
     id: calendar
-    //anchors.fill: parent
 
     property int startTime: 7
     property int numHours: 16
+    property int calendarRows: numHours+1
+    property int calendarColumns: 8
     property string cellBackground: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.3)
+    property double cellPreferredWidth: ((width - (calendarColumns * 4)) / calendarColumns)
+    property double cellPreferredHeight: ((height - (calendarRows *4)) / calendarRows)
 
     function dateFromIndex(indexCell){
         let d = new Date(controller.firstDay);
@@ -94,11 +97,9 @@ Item {
     GridLayout{
         id: grid
         anchors.fill: parent
-        Layout.fillWidth: true
-        Layout.fillHeight: true
 
-        columns: 8
-        rows: numHours + 1
+        columns: calendar.calendarColumns
+        rows: calendar.calendarRows
         columnSpacing: 4
         rowSpacing: 4
 
@@ -107,22 +108,20 @@ Item {
 
             Rectangle{
                 id: rectHour
-                //color: model.macroarea_color
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
-                width: (grid.width) / (grid.columns)
+                Layout.preferredWidth: calendar.cellPreferredWidth
 
                 Layout.column: (model.index % 7) + 1
                 Layout.row: model.index/7 + 1
 
                 gradient: Gradient {
-                        orientation: Gradient.Horizontal
-                        GradientStop { position: 0; color: model.macroarea_color }
-                        GradientStop { position: 2; color: model.macroarea_color === cellBackground ? cellBackground :
-                                                           cellBackground }
-                    }
-
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0; color: model.macroarea_color }
+                    GradientStop { position: 2; color: model.macroarea_color === cellBackground ? cellBackground :
+                                                                                                  cellBackground }
+                }
                 smooth: true
 
                 Text{
@@ -144,9 +143,9 @@ Item {
                     hoverEnabled: true
 
                     onClicked: (mouse) => {
-                        selectActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
-                        openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width);
-                    }
+                                   selectActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
+                                   openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
+                               }
 
                     onEntered: {
                         rectHour.opacity = 0.6
@@ -164,22 +163,26 @@ Item {
             model: daysOfTheWeek
 
             Text{
+                Layout.fillWidth: true
+                //Layout.fillHeight: true
+                Layout.preferredWidth: calendar.cellPreferredWidth / 2
+
                 Layout.column: model.index + 1
                 Layout.row: 0
-                Layout.columnSpan: 1
+
                 elide: Text.ElideRight
 
                 color: {
                     if(Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd") === Qt.formatDateTime(controller.currentDay, "yyyy-MM-dd")){
-                       return Universal.accent
+                        return Universal.accent
                     }else{
-                       return Universal.foreground
+                        return Universal.foreground
                     }
                 }
 
                 text: model.day.substring(0,3) + "  " + (controller.firstDay.getDate() + model.index)
 
-                font.pixelSize: 30
+                font.pixelSize: calendar.cellPreferredWidth / 4.5
                 font.family: customFont.name
             }
         }
@@ -189,36 +192,56 @@ Item {
 
             Rectangle{
                 Layout.fillHeight: true
-                width: (grid.width) / (grid.columns) / 2
+                Layout.fillWidth: true
 
-                color: Qt.transparent
+                Layout.column: 0
+                Layout.row: model.index + 1
+
+                Layout.preferredWidth: textHours.implicitWidth
+                Layout.preferredHeight: calendar.cellPreferredHeight
+
+                color: "transparent"
 
                 Text{
-                    Layout.column: 0
-                    Layout.row: model.index + 1
-                    Layout.columnSpan: 1
+                    id: textHours
                     anchors.fill: parent
                     //horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
 
+                    elide: Text.ElideRight
                     color: Universal.foreground
                     text: (model.index + startTime) + ":00"
 
-                    font.pixelSize: 16
+                    font.pixelSize: calendar.cellPreferredWidth / 8
                     font.family: customFont.name
                 }
             }
         }
 
-        Row{
+        Rectangle{
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             Layout.column: 0
             Layout.row: 0
-            width: 70
-            height: 30
+
+            // same of textHour
+            Layout.preferredWidth: calendar.cellPreferredWidth / 8
+            Layout.preferredHeight: calendar.cellPreferredHeight
+
+            color: "transparent"
+
+            property double buttonDim: width < height ? width/2 : height/2
 
             Button{
-                width: 25
-                height: 25
+
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: parent.left
+                }
+
+                width: parent.buttonDim
 
                 background: Rectangle{color: "transparent"}
 
@@ -233,8 +256,14 @@ Item {
                 }
             }
             Button{
-                width: 25
-                height: 25
+
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: parent.right
+                }
+
+                width: parent.buttonDim
 
                 background: Rectangle{color: "transparent"}
 

@@ -17,7 +17,8 @@ Item{
         let result = db.execute("SELECT a.activity_id, a.activity_name, m.macroarea_id, m.macroarea_color
                           FROM activities a
                           JOIN macroareas m
-                          ON a.macroarea_id = m.macroarea_id;");
+                          ON a.macroarea_id = m.macroarea_id
+                          ORDER BY a.macroarea_id ASC;");
 
         activities.clear()
         activities.append({activity_id: -1, name: qsTr("None"), color: "gray"});
