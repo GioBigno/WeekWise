@@ -86,67 +86,67 @@ Item {
             }
         }
 
-        ColumnLayout{
+        contentHeight: headerRect.height + sideBars.height + chart.height;
 
-            anchors.fill: parent
+        Rectangle{
+            id: headerRect
 
-            Rectangle{
-                id: headerRect
-
-                Layout.preferredHeight: textWeeklygoal.implicitHeight / 2
-                Layout.fillWidth: true
-
-                color: "transparent"
-
-                Text{
-                    id: textWeeklygoal
-
-                    anchors.centerIn: parent
-
-                    text: qsTr("Weekly goal")
-
-                    elide: Text.ElideRight
-                    color: Universal.foreground
-                    font.pixelSize: parent.width / 5
-                    font.family: customFont.name
-                }
+            anchors {
+                left: parent.left
+                top: parent.top
+                right: parent.right
             }
+            height: textWeeklygoal.implicitHeight / 2
 
-            SideBars{
-                id: sideBars
+            color: "transparent"
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: sideBars.height
+            Text{
+                id: textWeeklygoal
+
+                anchors.centerIn: parent
+
+                text: qsTr("Weekly goal")
+
+                elide: Text.ElideRight
+                color: Universal.foreground
+                font.pixelSize: parent.width / 5
+                font.family: customFont.name
             }
-
-            ChartView {
-                id: chart
-
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredHeight: width
-
-                antialiasing: true
-                backgroundColor: "transparent"
-                plotAreaColor: "transparent"
-                legend.visible: false
-
-                margins { right: 0; bottom: 0; left: 0; top: 0 }
-                anchors.margins: 0
-                Layout.margins: 0
-
-                PieSeries {
-                    id: pieSeries
-                }
-
-                Component.onCompleted: {
-                    console.log("alt: " + height)
-                }
-
-            }
-
         }
 
-    }
+        SideBars{
+            id: sideBars
 
+            anchors{
+                left: parent.left
+                right: parent.right
+                top: headerRect.bottom
+            }
+        }
+
+        ChartView {
+            id: chart
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: sideBars.bottom
+            }
+
+            height: width
+
+            antialiasing: true
+            backgroundColor: "transparent"
+            plotAreaColor: "transparent"
+            legend.visible: false
+
+            margins { right: 0; bottom: 0; left: 0; top: 0 }
+            anchors.margins: 0
+            Layout.margins: 0
+
+            PieSeries {
+                id: pieSeries
+            }
+        }
+    }
 }
