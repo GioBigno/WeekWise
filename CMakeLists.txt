@@ -9,6 +9,7 @@ set(QML_IMPORT_PATH "${CMAKE_SOURCE_DIR}/plugins")
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Qml)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Sql)
 
 qt_standard_project_setup()
 
@@ -38,7 +39,8 @@ add_subdirectory(plugins/BDatabase)
 target_link_libraries(WeekWise
     PRIVATE Qt6::Quick
     PRIVATE BDatabaseplugin
-    PRIVATE Qt6::Widgets)
+    PRIVATE Qt6::Widgets
+    PRIVATE Qt6::Sql)
 
 include(GNUInstallDirs)
 install(TARGETS WeekWise
