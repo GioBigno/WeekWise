@@ -21,18 +21,11 @@ CREATE TABLE planned_macroareas (
     UNIQUE (week_date, macroarea_id)
 );
 
-CREATE TABLE planned_activities (
-    planned_acitivity_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    activity_id INTEGER NOT NULL,
-    planned_macroarea_id INTEGER NOT NULL,
-    planned_duration INTEGER NOT NULL,
-    FOREIGN KEY (activity_id) REFERENCES activities(activity_id),
-    FOREIGN KEY (planned_macroarea_id) REFERENCES planned_macroareas(planned_macroarea_id)
-);
-
 CREATE TABLE logged_hours (
     logged_id INTEGER PRIMARY KEY AUTOINCREMENT,
     activity_id INTEGER NOT NULL,
     date_logged INTEGER UNIQUE NOT NULL,
+    done BOOLEAN NOT NULL,
+    CHECK (done IN (0, 1)),
     FOREIGN KEY (activity_id) REFERENCES activities(activity_id)
 );
