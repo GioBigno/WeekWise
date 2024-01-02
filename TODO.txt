@@ -20,6 +20,8 @@ functionality ------------------
 
  - "stats" page
 
+ - add logged_hours in sideBars statistics
+
  - find a way to configure and synchronize the database
 
  - cmake BDatabase plugin

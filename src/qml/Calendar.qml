@@ -23,37 +23,38 @@ Item {
         d.setHours(indexHour);
         d.setMinutes(0);
         d.setSeconds(0);
+        d.setMilliseconds(0);
         return new Date(d);
     }
 
-    function openPopup(mouseX, mouseY, w){
+    function openPopup(popup, mouseX, mouseY, w){
 
-        selectActivityPopup.width = w;
+        popup.width = w;
 
-        if(mouseX + selectActivityPopup.width > parent.width){
-            mouseX -= selectActivityPopup.width;
+        if(mouseX + popup.width > parent.width){
+            mouseX -= popup.width;
         }
 
-        if(mouseY + selectActivityPopup.height > parent.height){
-            mouseY -= selectActivityPopup.height;
+        if(mouseY + popup.height > parent.height){
+            mouseY -= popup.height;
         }
 
-        selectActivityPopup.x = mouseX;
-        selectActivityPopup.y = mouseY;
+        popup.x = mouseX;
+        popup.y = mouseY;
 
-        selectActivityPopup.open();
+        popup.open();
     }
 
-    function weekLoggedHoursChanged(){
+    function weekPlannedLoggedHoursChanged(){
         cellsHours.clear();
 
         for(let day = 0; day<7; day++){
             for(let hour = 0; hour < numHours; hour++){
-                cellsHours.append({activity_name: "", macroarea_color: cellBackground});
+                cellsHours.append({activity_id: -1, activity_name: "", macroarea_color: cellBackground, done: false});
             }
         }
 
-        let result = controller.getWeekLoggedHours()
+        let result = controller.getWeekPlannedLoggedHours()
         for (let i = 0; i < result.count; ++i) {
             let row = result.get(i);
             let date_logged = new Date(row.date_logged);
@@ -66,12 +67,12 @@ Item {
             if(day < 0)
                 day = 6;
             let index = (day) + (7 * (date_logged.getHours()-startTime));
-            cellsHours.set(index, {activity_name: row.activity_name, macroarea_color: row.macroarea_color});
+            cellsHours.set(index, {activity_id: row.activity_id, activity_name: row.activity_name, macroarea_color: row.macroarea_color, done: row.done});
         }
     }
 
     Component.onCompleted: {
-        weekLoggedHoursChanged()
+        weekPlannedLoggedHoursChanged()
     }
 
     ListModel{
@@ -87,11 +88,15 @@ Item {
 
     ListModel{
         id: cellsHours
-        //{activity_name, macroarea_color}
+        //{activity_id, activity_name, macroarea_color, done}
     }
 
-    PopupCalendarCell{
-        id: selectActivityPopup
+    PopupCalendarPlannedHour{
+        id: selectPlannedActivityPopup
+    }
+
+    PopupCalendarLoggedHour{
+        id: selectLoggedPopup
     }
 
     GridLayout{
@@ -116,11 +121,12 @@ Item {
                 Layout.column: (model.index % 7) + 1
                 Layout.row: model.index/7 + 1
 
+                property color cellColor: (model.done || activity_id === -1) ? model.macroarea_color : Qt.color(model.macroarea_color).darker()
+
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
-                    GradientStop { position: 0; color: model.macroarea_color }
-                    GradientStop { position: 2; color: model.macroarea_color === cellBackground ? cellBackground :
-                                                                                                  cellBackground }
+                    GradientStop { position: 0; color: cellColor }
+                    GradientStop { position: 2; color: cellBackground }
                 }
                 smooth: true
 
@@ -143,9 +149,17 @@ Item {
                     hoverEnabled: true
 
                     onClicked: (mouse) => {
-                                   selectActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
-                                   openPopup(rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
-                               }
+
+                                if(model.activity_id === -1){
+                                    selectPlannedActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
+                                    openPopup(selectPlannedActivityPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
+                                }else{
+                                    selectLoggedPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
+                                    selectLoggedPopup.activity_id = model.activity_id;
+                                    selectLoggedPopup.done = model.done;
+                                    openPopup(selectLoggedPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width);
+                                }
+                            }
 
                     onEntered: {
                         rectHour.opacity = 0.6
@@ -155,7 +169,6 @@ Item {
                         rectHour.opacity = 1
                     }
                 }
-
             }
         }
 

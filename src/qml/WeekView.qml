@@ -6,8 +6,8 @@ import QtQuick.Controls.Universal 2.12
 Item{
     //id: weekView
 
-    function weekLoggedHoursChanged(){
-        calendar.weekLoggedHoursChanged()
+    function weekPlannedLoggedHoursChanged(){
+        calendar.weekPlannedLoggedHoursChanged()
     }
 
     function weekTotalHoursStatsChanged(){

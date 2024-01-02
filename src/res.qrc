@@ -5,7 +5,8 @@
         <file alias="Calendar.qml">qml/Calendar.qml</file>
         <file alias="SideStats.qml">qml/SideStats.qml</file>
         <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
-        <file alias="PopupCalendarCell.qml">qml/PopupCalendarCell.qml</file>
+        <file alias="PopupCalendarPlannedHour.qml">qml/PopupCalendarPlannedHour.qml</file>
+        <file alias="PopupCalendarLoggedHour.qml">qml/PopupCalendarLoggedHour.qml</file>
         <file alias="PopupSideStatsNewGoal.qml">qml/PopupSideStatsNewGoal.qml</file>
         <file alias="PopupSideStatsNewGoalDetail.qml">qml/PopupSideStatsNewGoalDetail.qml</file>
         <file alias="Model.qml">qml/Model.qml</file>

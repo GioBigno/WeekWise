@@ -21,15 +21,15 @@ Item{
                           ORDER BY a.macroarea_id ASC;");
 
         activities.clear()
-        activities.append({activity_id: -1, name: qsTr("None"), color: "gray"});
+        //activities.append({activity_id: -1, name: qsTr("None"), color: "gray"});
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
             activities.append({activity_id: row.activity_id, name: row.activity_name, macroarea_id: row.macroarea_id, color: "#"+row.macroarea_color});
         }
     }
 
-    function fillWeekLoggedHours(firstDay, lastDay){
-        let result = db.execute("SELECT lh.date_logged, lh.activity_id, a.activity_name, ma.macroarea_color
+    function fillWeekPlannedLoggedHours(firstDay, lastDay){
+        let result = db.execute("SELECT lh.date_logged, lh.activity_id, lh.done, a.activity_name, ma.macroarea_color
                                  FROM logged_hours lh
                                  JOIN activities a ON lh.activity_id = a.activity_id
                                  JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
@@ -37,10 +37,10 @@ Item{
                                  BETWEEN " + controller.dateToTimestampNoTime(firstDay) +"
                                  AND " +  (controller.dateToTimestampNoTime(lastDay)-1) +";");
 
-        weekLoggedHours.clear();
+        weekPlannedLoggedHours.clear();
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            weekLoggedHours.append({date_logged: timeStamptoDate(row.date_logged), macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name});
+            weekPlannedLoggedHours.append({activity_id: row.activity_id, date_logged: timeStamptoDate(row.date_logged), macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name, done: row.done === 1});
         }
     }
 
@@ -57,7 +57,7 @@ Item{
                                 LEFT JOIN activities a ON m.macroarea_id = a.macroarea_id
                                 LEFT JOIN planned_macroareas pm ON m.macroarea_id = pm.macroarea_id
                                     AND pm.week_date BETWEEN " + controller.dateToTimestampNoTime(firstDay) +" AND " + (controller.dateToTimestampNoTime(lastDay)-1) +"
-                                LEFT JOIN logged_hours l ON a.activity_id = l.activity_id
+                                LEFT JOIN logged_hours l ON a.activity_id = l.activity_id AND l.done = 1
                                     AND l.date_logged BETWEEN " + controller.dateToTimestampNoTime(firstDay) +" AND " + (controller.dateToTimestampNoTime(lastDay)-1) +"
                                 GROUP BY m.macroarea_id, m.macroarea_color
                                 HAVING total_planned_hours != 0
@@ -78,14 +78,24 @@ Item{
         }
     }
 
+    function addPlannedHour(date, activity_id){
+        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged, done)
+                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 0);");
+    }
+
+    function deletePlannedHour(date){
+        db.execute("DELETE FROM logged_hours
+                    WHERE date_logged = " + controller.dateToTimestamp(date) + ";");
+    }
+
     function deleteLoggedHour(date){
         db.execute("DELETE FROM logged_hours
                     WHERE date_logged = " + controller.dateToTimestamp(date) + ";");
     }
 
     function addLoggedHour(date, activity_id){
-        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged)
-                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"');");
+        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged, done)
+                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 1);");
     }
 
     function addPlannedMacroarea(macroarea_id, numHours, firstDay){
@@ -106,8 +116,8 @@ Item{
         return activities;
     }
 
-    function getWeekLoggedHours(){
-        return weekLoggedHours;
+    function getWeekPlannedLoggedHours(){
+        return weekPlannedLoggedHours;
     }
 
     function getWeekTotalHoursStats(){
@@ -143,9 +153,9 @@ Item{
     }
 
     ListModel{
-        id: weekLoggedHours
+        id: weekPlannedLoggedHours
         //logged hours of the week
-        //{date_logged, macroarea_color, activity_name}
+        //{activity_id, date_logged, macroarea_color, activity_name, done}
     }
 
     ListModel{

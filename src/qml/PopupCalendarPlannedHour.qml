@@ -48,13 +48,7 @@ Popup {
                 anchors.fill: parent
 
                 onClicked: {
-
-                    if(model.activity_id === -1){
-                        controller.deleteLoggedHour(dateCell);
-                    }else{
-                        controller.addLoggedHour(dateCell, model.activity_id);
-                    }
-
+                    controller.addPlannedHour(dateCell, model.activity_id);
                     selectActivityPopup.close();
                 }
             }

@@ -18,7 +18,7 @@ Item{
 
         modelLogic.fillMacroareas();
         modelLogic.fillActivities();
-        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
 
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
@@ -26,7 +26,7 @@ Item{
         stackView.push(weekView);
 
         weekView.weekTotalHoursStatsChanged();
-        weekView.weekLoggedHoursChanged();
+        weekView.weekPlannedLoggedHoursChanged();
     }
 
     function pushStatsView(){
@@ -108,11 +108,11 @@ Item{
         lastDay = lastDayOfTheWeek(firstDay);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
-        weekView.weekLoggedHoursChanged();
+        weekView.weekPlannedLoggedHoursChanged();
         weekView.weekTotalHoursStatsChanged();
     }
 
@@ -121,11 +121,35 @@ Item{
         lastDay = lastDayOfTheWeek(firstDay);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
-        weekView.weekLoggedHoursChanged();
+        weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
+    function addPlannedHour(date, activity_id){
+        modelLogic.addPlannedHour(date, activity_id);
+
+        //update
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
+    function deletePlannedHour(date){
+        modelLogic.deletePlannedHour(date);
+
+        //update
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
         weekView.weekTotalHoursStatsChanged();
     }
 
@@ -133,11 +157,11 @@ Item{
         modelLogic.deleteLoggedHour(date);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
-        weekView.weekLoggedHoursChanged();
+        weekView.weekPlannedLoggedHoursChanged();
         weekView.weekTotalHoursStatsChanged();
     }
 
@@ -145,11 +169,11 @@ Item{
         modelLogic.addLoggedHour(date, activity_id);
 
         //update
-        modelLogic.fillWeekLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         //notify
-        weekView.weekLoggedHoursChanged();
+        weekView.weekPlannedLoggedHoursChanged();
         weekView.weekTotalHoursStatsChanged();
     }
 
@@ -181,8 +205,8 @@ Item{
         return modelLogic.getActivities();
     }
 
-    function getWeekLoggedHours(){
-        return modelLogic.getWeekLoggedHours();
+    function getWeekPlannedLoggedHours(){
+        return modelLogic.getWeekPlannedLoggedHours();
     }
 
     function getWeekTotalHoursStats(){

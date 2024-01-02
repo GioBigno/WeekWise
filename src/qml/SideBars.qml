@@ -193,8 +193,8 @@ Item{
                             popupNewGoalDetailEdit.open();
                         }
                     }
-
                 }
+
                 PopupSideStatsNewGoalDetail{
                     id: popupNewGoalDetailEdit
                 }
