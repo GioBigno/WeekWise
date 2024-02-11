@@ -31,11 +31,11 @@ Item {
 
         popup.width = w;
 
-        if(mouseX + popup.width > parent.width){
+        if(mouseX + popup.width > width){
             mouseX -= popup.width;
         }
 
-        if(mouseY + popup.height > parent.height){
+        if(mouseY + popup.height > height){
             mouseY -= popup.height;
         }
 
@@ -50,7 +50,7 @@ Item {
 
         for(let day = 0; day<7; day++){
             for(let hour = 0; hour < numHours; hour++){
-                cellsHours.append({activity_id: -1, activity_name: "", macroarea_color: cellBackground, done: false});
+                cellsHours.append({activity_id: -1, activity_name: "", macroarea_color: cellBackground, note: "", done: false});
             }
         }
 
@@ -67,7 +67,7 @@ Item {
             if(day < 0)
                 day = 6;
             let index = (day) + (7 * (date_logged.getHours()-startTime));
-            cellsHours.set(index, {activity_id: row.activity_id, activity_name: row.activity_name, macroarea_color: row.macroarea_color, done: row.done});
+            cellsHours.set(index, {activity_id: row.activity_id, activity_name: row.activity_name, macroarea_color: row.macroarea_color, note: row.note, done: row.done});
         }
     }
 
@@ -88,11 +88,11 @@ Item {
 
     ListModel{
         id: cellsHours
-        //{activity_id, activity_name, macroarea_color, done}
+        //{activity_id, activity_name, macroarea_color, note, done}
     }
 
-    PopupCalendarPlannedHour{
-        id: selectPlannedActivityPopup
+    PopupCalendarNewHour{
+        id: newHourPopup
     }
 
     PopupCalendarLoggedHour{
@@ -140,7 +140,7 @@ Item {
                     elide: Text.ElideRight
                     color: Universal.background
 
-                    font.pixelSize: parent.height * 0.6
+                    font.pointSize: 14
                     font.family: customFont.name
                 }
 
@@ -151,13 +151,23 @@ Item {
                     onClicked: (mouse) => {
 
                                 if(model.activity_id === -1){
-                                    selectPlannedActivityPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
-                                    openPopup(selectPlannedActivityPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
+                                    newHourPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
+                                    openPopup(newHourPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
                                 }else{
                                     selectLoggedPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
                                     selectLoggedPopup.activity_id = model.activity_id;
+                                    selectLoggedPopup.activity_name = model.activity_name;
                                     selectLoggedPopup.done = model.done;
-                                    openPopup(selectLoggedPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width);
+                                    selectLoggedPopup.note = model.note;
+                                    selectLoggedPopup.height = calendar.height / 2;
+                                    selectLoggedPopup.width = calendar.width / 2;
+                                    selectLoggedPopup.x = calendar.width / 4;
+                                    selectLoggedPopup.y = calendar.height / 4;
+
+                                    console.log("[calendar] date: " + Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss"))
+                                    console.log("[calendar] note: " + model.note);
+
+                                    selectLoggedPopup.open();
                                 }
                             }
 
@@ -195,7 +205,7 @@ Item {
 
                 text: model.day.substring(0,3) + "  " + (controller.firstDay.getDate() + model.index)
 
-                font.pixelSize: calendar.cellPreferredWidth / 4.5
+                font.pixelSize: 22
                 font.family: customFont.name
             }
         }
@@ -225,7 +235,7 @@ Item {
                     color: Universal.foreground
                     text: (model.index + startTime) + ":00"
 
-                    font.pixelSize: calendar.cellPreferredWidth / 8
+                    font.pixelSize: 15
                     font.family: customFont.name
                 }
             }

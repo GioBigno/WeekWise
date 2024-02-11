@@ -29,7 +29,7 @@ Item{
     }
 
     function fillWeekPlannedLoggedHours(firstDay, lastDay){
-        let result = db.execute("SELECT lh.date_logged, lh.activity_id, lh.done, a.activity_name, ma.macroarea_color
+        let result = db.execute("SELECT lh.date_logged, lh.activity_id, lh.note, lh.done, a.activity_name, ma.macroarea_color
                                  FROM logged_hours lh
                                  JOIN activities a ON lh.activity_id = a.activity_id
                                  JOIN macroareas ma ON a.macroarea_id = ma.macroarea_id
@@ -40,7 +40,7 @@ Item{
         weekPlannedLoggedHours.clear();
         for (let i = 0; i < result.length; ++i) {
             let row = result[i];
-            weekPlannedLoggedHours.append({activity_id: row.activity_id, date_logged: timeStamptoDate(row.date_logged), macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name, done: row.done === 1});
+            weekPlannedLoggedHours.append({activity_id: row.activity_id, date_logged: timeStamptoDate(row.date_logged), macroarea_color: "#"+row.macroarea_color, activity_name: row.activity_name, note: row.note, done: row.done === 1});
         }
     }
 
@@ -79,8 +79,14 @@ Item{
     }
 
     function addPlannedHour(date, activity_id){
-        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged, done)
-                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 0);");
+        db.execute("INSERT INTO logged_hours (activity_id, date_logged, done, note)
+                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 0, '');");
+    }
+
+    function setPlannedHour(date){
+        db.execute("UPDATE logged_hours
+                    SET done=0
+                    WHERE date_logged=" + controller.dateToTimestamp(date) + ";");
     }
 
     function deletePlannedHour(date){
@@ -93,9 +99,15 @@ Item{
                     WHERE date_logged = " + controller.dateToTimestamp(date) + ";");
     }
 
-    function addLoggedHour(date, activity_id){
-        db.execute("INSERT OR REPLACE INTO logged_hours (activity_id, date_logged, done)
-                    VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 1);");
+    function setLoggedHour(date){
+        db.execute("UPDATE logged_hours
+                    SET done=1
+                    WHERE date_logged=" + controller.dateToTimestamp(date) + ";");
+    }
+
+    function addNoteLoggedHour(date, note){
+        //note is dangerous
+        db.execute("UPDATE logged_hours SET note='" + note + "' WHERE date_logged=" + controller.dateToTimestamp(date) + ";");
     }
 
     function addPlannedMacroarea(macroarea_id, numHours, firstDay){
@@ -155,7 +167,7 @@ Item{
     ListModel{
         id: weekPlannedLoggedHours
         //logged hours of the week
-        //{activity_id, date_logged, macroarea_color, activity_name, done}
+        //{activity_id, date_logged, macroarea_color, activity_name, note, done}
     }
 
     ListModel{

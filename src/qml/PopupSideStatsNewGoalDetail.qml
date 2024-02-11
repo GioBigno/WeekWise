@@ -3,6 +3,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts
 import QtQuick.Controls.Universal 2.12
 
+//popup to select the amount of hours of a new or an existing goal
+
 Popup {
     id: popUpNewGoalDetail
     modal: true
@@ -31,7 +33,7 @@ Popup {
         text: qsTr("Hours:")
 
         color: Universal.foreground
-        font.pixelSize: 30
+        font.pointSize: 12
         font.family: customFont.name
     }
 
@@ -48,7 +50,7 @@ Popup {
             color: "transparent"
         }
 
-        font.pixelSize: 25
+        font.pointSize: 15
         font.family: customFont.name
 
         from: 1
@@ -82,7 +84,7 @@ Popup {
         }
 
         text: qsTr("Confirm")
-        font.pixelSize: 23
+        font.pointSize: 12
         font.family: customFont.name
 
         onClicked: {

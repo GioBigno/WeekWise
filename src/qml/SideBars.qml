@@ -32,10 +32,10 @@ Item{
         anchors.fill: parent
         spacing: space
 
-        property int fontSize: 26
+        property int fontSize: 15
         property int barHeight: 15
         property int space: 8
-        property int rectHeight: columnSideBars.fontSize*2 + columnSideBars.barHeight
+        property int rectHeight: columnSideBars.fontSize*3 + columnSideBars.barHeight
 
         Repeater{
             model: weekTotalHours
@@ -80,7 +80,7 @@ Item{
                     clip: true
                     elide: Text.ElideRight
 
-                    font.pixelSize: columnSideBars.fontSize
+                    font.pointSize: columnSideBars.fontSize
                     font.family: customFont.name
                 }
 
@@ -96,7 +96,7 @@ Item{
                     text: "" + model.total_logged_hours + " / " + model.total_planned_hours
                     clip: true
 
-                    font.pixelSize: columnSideBars.fontSize
+                    font.pointSize: columnSideBars.fontSize
                     font.family: customFont.name
                 }
 

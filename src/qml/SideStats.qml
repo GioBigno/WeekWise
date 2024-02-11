@@ -96,7 +96,7 @@ Item {
                 top: parent.top
                 right: parent.right
             }
-            height: textWeeklygoal.implicitHeight / 2
+            height: textWeeklygoal.implicitHeight
 
             color: "transparent"
 
@@ -109,7 +109,7 @@ Item {
 
                 elide: Text.ElideRight
                 color: Universal.foreground
-                font.pixelSize: parent.width / 5
+                font.pointSize: 40
                 font.family: customFont.name
             }
         }
@@ -121,6 +121,7 @@ Item {
                 left: parent.left
                 right: parent.right
                 top: headerRect.bottom
+                topMargin: 10
             }
         }
 

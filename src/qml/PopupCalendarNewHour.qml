@@ -2,10 +2,10 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Universal 2.12
 
-//popup to insert a new goal into sidestats
+//popup to insert a new hour into the calendar
 
 Popup {
-    id: popUpNewGoal
+    id: selectActivityPopup
     height: listViewPopup.contentHeight < width*1.5 ? listViewPopup.contentHeight+20 : width*1.5
     modal: true
     focus: true
@@ -16,12 +16,12 @@ Popup {
         radius: 4
     }
 
-    property int indexCell: -1
+    property string dateCell: ""
 
     ListView {
         id: listViewPopup
         anchors.fill: parent
-        model: controller.getMacroareas()
+        model: controller.getActivities()
         spacing: 10
         clip: true
 
@@ -50,13 +50,10 @@ Popup {
                 anchors.fill: parent
 
                 onClicked: {
-                    popupNewGoalDetail.macroarea_id = model.id;
-                    popupNewGoalDetail.setStartValue(5);
-                    popUpNewGoal.close();
-                    popupNewGoalDetail.open();
+                    controller.addPlannedHour(dateCell, model.activity_id, "");
+                    selectActivityPopup.close();
                 }
             }
         }
     }
 }
-

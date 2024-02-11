@@ -26,6 +26,7 @@ CREATE TABLE logged_hours (
     activity_id INTEGER NOT NULL,
     date_logged INTEGER UNIQUE NOT NULL,
     done BOOLEAN NOT NULL,
+    note TEXT,
     CHECK (done IN (0, 1)),
     FOREIGN KEY (activity_id) REFERENCES activities(activity_id)
 );

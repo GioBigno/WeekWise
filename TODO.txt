@@ -1,10 +1,10 @@
 BUG ----------------------------
 
+    normalize database
+
 --------------------------------
 
 UI -----------------------------
-
- - find a better font
 
  - add "change theme" button
 

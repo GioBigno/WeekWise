@@ -141,6 +141,18 @@ Item{
         weekView.weekTotalHoursStatsChanged();
     }
 
+    function setPlannedHour(date){
+        modelLogic.setPlannedHour(date);
+
+        //update
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
     function deletePlannedHour(date){
         modelLogic.deletePlannedHour(date);
 
@@ -165,8 +177,8 @@ Item{
         weekView.weekTotalHoursStatsChanged();
     }
 
-    function addLoggedHour(date, activity_id){
-        modelLogic.addLoggedHour(date, activity_id);
+    function setLoggedHour(date){
+        modelLogic.setLoggedHour(date);
 
         //update
         modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
@@ -175,6 +187,16 @@ Item{
         //notify
         weekView.weekPlannedLoggedHoursChanged();
         weekView.weekTotalHoursStatsChanged();
+    }
+
+    function addNoteLoggedHour(date, note){
+        modelLogic.addNoteLoggedHour(date, note);
+
+        //update
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
     }
 
     function addPlannedMacroareas(macroarea_id, numHours){
