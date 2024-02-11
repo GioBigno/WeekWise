@@ -17,7 +17,7 @@ ApplicationWindow {
 
     FontLoader{
         id: customFont
-        source: "qrc:/fonts/font.ttf"
+        source: "qrc:/fonts/Roboto-Medium.ttf"
     }
 
     Rectangle{

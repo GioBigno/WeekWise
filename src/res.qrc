@@ -5,7 +5,7 @@
         <file alias="Calendar.qml">qml/Calendar.qml</file>
         <file alias="SideStats.qml">qml/SideStats.qml</file>
         <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
-        <file alias="PopupCalendarPlannedHour.qml">qml/PopupCalendarPlannedHour.qml</file>
+        <file alias="PopupCalendarNewHour.qml">qml/PopupCalendarNewHour.qml</file>
         <file alias="PopupCalendarLoggedHour.qml">qml/PopupCalendarLoggedHour.qml</file>
         <file alias="PopupSideStatsNewGoal.qml">qml/PopupSideStatsNewGoal.qml</file>
         <file alias="PopupSideStatsNewGoalDetail.qml">qml/PopupSideStatsNewGoalDetail.qml</file>
@@ -14,8 +14,12 @@
         <file alias="SideBars.qml">qml/SideBars.qml</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file alias="Monocraft.ttf">fonts/Monocraft.ttf</file>
-        <file alias="font.ttf">fonts/font.ttf</file>
+        <file alias="Roboto-Regular.ttf">fonts/Roboto-Regular.ttf</file>
+        <file alias="Roboto-MediumItalic.ttf">fonts/Roboto-MediumItalic.ttf</file>
+        <file alias="Roboto-Medium.ttf">fonts/Roboto-Medium.ttf</file>
+        <file alias="Roboto-LightItalic.ttf">fonts/Roboto-LightItalic.ttf</file>
+        <file alias="Roboto-Light.ttf">fonts/Roboto-Light.ttf</file>
+        <file alias="Roboto-Bold.ttf">fonts/Roboto-Bold.ttf</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/arrow9.svg</file>
