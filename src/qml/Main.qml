@@ -16,8 +16,13 @@ ApplicationWindow {
     Universal.background: Qt.color("#192128")
 
     FontLoader{
-        id: customFont
+        id: fontMedium
         source: "qrc:/fonts/Roboto-Medium.ttf"
+    }
+
+    FontLoader{
+        id: fontLight
+        source: "qrc:/fonts/Roboto-Light.ttf"
     }
 
     Rectangle{

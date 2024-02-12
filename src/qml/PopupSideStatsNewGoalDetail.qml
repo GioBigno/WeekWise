@@ -34,7 +34,7 @@ Popup {
 
         color: Universal.foreground
         font.pointSize: 12
-        font.family: customFont.name
+        font.family: fontMedium.name
     }
 
     SpinBox{
@@ -51,7 +51,7 @@ Popup {
         }
 
         font.pointSize: 15
-        font.family: customFont.name
+        font.family: fontMedium.name
 
         from: 1
         to: 24*7
@@ -85,7 +85,7 @@ Popup {
 
         text: qsTr("Confirm")
         font.pointSize: 12
-        font.family: customFont.name
+        font.family: fontMedium.name
 
         onClicked: {
             if(popUpNewGoalDetail.macroarea_id === -1){

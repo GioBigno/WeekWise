@@ -141,7 +141,7 @@ Item {
                     color: Universal.background
 
                     font.pointSize: 14
-                    font.family: customFont.name
+                    font.family: fontMedium.name
                 }
 
                 MouseArea{
@@ -206,7 +206,7 @@ Item {
                 text: model.day.substring(0,3) + "  " + (controller.firstDay.getDate() + model.index)
 
                 font.pixelSize: 22
-                font.family: customFont.name
+                font.family: fontMedium.name
             }
         }
 
@@ -236,7 +236,7 @@ Item {
                     text: (model.index + startTime) + ":00"
 
                     font.pixelSize: 15
-                    font.family: customFont.name
+                    font.family: fontMedium.name
                 }
             }
         }

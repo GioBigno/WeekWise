@@ -43,7 +43,7 @@ Popup {
                 text: model.name
 
                 font.pointSize: 12
-                font.family: customFont.name
+                font.family: fontMedium.name
             }
 
             MouseArea{

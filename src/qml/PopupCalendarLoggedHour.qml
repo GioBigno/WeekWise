@@ -44,7 +44,7 @@ Popup {
         elide: Text.ElideRight
         color: Universal.foreground
         font.pointSize: 26
-        font.family: customFont.name
+        font.family: fontMedium.name
     }
 
     Text{
@@ -64,7 +64,7 @@ Popup {
         verticalAlignment: Text.AlignBottom
         color: Universal.foreground
         font.pointSize: 18
-        font.family: customFont.name
+        font.family: fontMedium.name
     }
 
     Rectangle{
@@ -109,8 +109,8 @@ Popup {
                 selectByKeyboard: true
                 wrapMode: TextEdit.Wrap
                 color: Universal.accent
-                font.pointSize: 15
-                font.family: customFont.name
+                font.pointSize: 12
+                font.family: fontLight.font
                 text: selectLoggedPopup.note
 
                 onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)

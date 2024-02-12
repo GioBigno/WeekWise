@@ -110,7 +110,7 @@ Item {
                 elide: Text.ElideRight
                 color: Universal.foreground
                 font.pointSize: 40
-                font.family: customFont.name
+                font.family: fontMedium.name
             }
         }
 

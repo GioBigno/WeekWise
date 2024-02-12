@@ -81,7 +81,7 @@ Item{
                     elide: Text.ElideRight
 
                     font.pointSize: columnSideBars.fontSize
-                    font.family: customFont.name
+                    font.family: fontMedium.name
                 }
 
                 Text{
@@ -97,7 +97,7 @@ Item{
                     clip: true
 
                     font.pointSize: columnSideBars.fontSize
-                    font.family: customFont.name
+                    font.family: fontMedium.name
                 }
 
 
