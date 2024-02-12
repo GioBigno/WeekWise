@@ -28,12 +28,14 @@ Popup {
         anchors {
             top: parent.top
             left:parent.left
+            right: parent.right
         }
 
         text: qsTr("Hours:")
 
+        horizontalAlignment: Text.Center
         color: Universal.foreground
-        font.pointSize: 12
+        font.pointSize: 14
         font.family: fontMedium.name
     }
 
@@ -41,16 +43,17 @@ Popup {
         id: hoursSpinBox
 
         anchors {
-            top: parent.top
+            top: textNumHours.bottom
             right: parent.right
-            left: textNumHours.right
+            left: parent.left
+            margins: 10
         }
 
         background: Rectangle{
             color: "transparent"
         }
 
-        font.pointSize: 15
+        font.pointSize: 14
         font.family: fontMedium.name
 
         from: 1
