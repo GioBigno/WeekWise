@@ -1,4 +1,6 @@
 import QtQuick
+import "WeekView"
+import "ManagementView"
 
 Item{
 
@@ -7,6 +9,7 @@ Item{
     property date lastDay: lastDayOfTheWeek(firstDay)
 
     property QtObject weekView
+    property QtObject managementView
 
     Model{
         id: modelLogic
@@ -15,11 +18,9 @@ Item{
     // view functions ------------------------------------------------
 
     function pushWeekView(){
-
         modelLogic.fillMacroareas();
         modelLogic.fillActivities();
         modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
-
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
         weekView = weekViewComponent.createObject(stackView);
@@ -29,6 +30,14 @@ Item{
         weekView.weekPlannedLoggedHoursChanged();
     }
 
+    function pushManagementView(){
+        modelLogic.fillMacroareas();
+        modelLogic.fillActivities();
+
+        managementView = managementViewComponent.createObject(stackView);
+        stackView.push(managementView);
+    }
+
     function pushStatsView(){
         //TODO
     }
@@ -36,6 +45,11 @@ Item{
     Component{
         id: weekViewComponent
         WeekView{}
+    }
+
+    Component{
+        id: managementViewComponent
+        ManagementView{}
     }
 
     // ----------------------------------------------------------------
@@ -126,6 +140,30 @@ Item{
 
         //notify
         weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
+    function addMacroarea(macroarea_name){
+        modelLogic.addMacroarea(macroarea_name);
+
+        //update
+        modelLogic.fillMacroareas();
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
+    function renameMacroarea(macroarea_id, newName){
+        modelLogic.renameMacroarea(macroarea_id, newName);
+
+        //update
+        modelLogic.fillMacroareas();
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
         weekView.weekTotalHoursStatsChanged();
     }
 

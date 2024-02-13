@@ -1,27 +1,25 @@
 <RCC>
-    <qresource prefix="/qml">
-        <file alias="Main.qml">qml/Main.qml</file>
-        <file alias="WeekView.qml">qml/WeekView.qml</file>
-        <file alias="Calendar.qml">qml/Calendar.qml</file>
-        <file alias="SideStats.qml">qml/SideStats.qml</file>
-        <file alias="BProgressBar.qml">qml/BProgressBar.qml</file>
-        <file alias="PopupCalendarNewHour.qml">qml/PopupCalendarNewHour.qml</file>
-        <file alias="PopupCalendarLoggedHour.qml">qml/PopupCalendarLoggedHour.qml</file>
-        <file alias="PopupSideStatsNewGoal.qml">qml/PopupSideStatsNewGoal.qml</file>
-        <file alias="PopupSideStatsNewGoalDetail.qml">qml/PopupSideStatsNewGoalDetail.qml</file>
-        <file alias="Model.qml">qml/Model.qml</file>
-        <file alias="Controller.qml">qml/Controller.qml</file>
-        <file alias="SideBars.qml">qml/SideBars.qml</file>
-    </qresource>
-    <qresource prefix="/fonts">
-        <file alias="Roboto-Regular.ttf">fonts/Roboto-Regular.ttf</file>
-        <file alias="Roboto-MediumItalic.ttf">fonts/Roboto-MediumItalic.ttf</file>
-        <file alias="Roboto-Medium.ttf">fonts/Roboto-Medium.ttf</file>
-        <file alias="Roboto-LightItalic.ttf">fonts/Roboto-LightItalic.ttf</file>
-        <file alias="Roboto-Light.ttf">fonts/Roboto-Light.ttf</file>
-        <file alias="Roboto-Bold.ttf">fonts/Roboto-Bold.ttf</file>
-    </qresource>
-    <qresource prefix="/icons">
+    <qresource prefix="/">
+        <file>qml/Main.qml</file>
+        <file>qml/Controller.qml</file>
+        <file>qml/Model.qml</file>
+        <file>qml/WeekView/WeekView.qml</file>
+        <file>qml/WeekView/calendar/Calendar.qml</file>
+        <file>qml/WeekView/calendar/PopupLoggedHour.qml</file>
+        <file>qml/WeekView/calendar/PopupNewHour.qml</file>
+        <file>qml/WeekView/calendar/PopupPlannedHour.qml</file>
+        <file>qml/WeekView/sideStats/BProgressBar.qml</file>
+        <file>qml/WeekView/sideStats/PopupNewGoal.qml</file>
+        <file>qml/WeekView/sideStats/PopupNewGoalDetail.qml</file>
+        <file>qml/WeekView/sideStats/SideBars.qml</file>
+        <file>qml/WeekView/sideStats/SideStats.qml</file>
+        <file>qml/ManagementView/ManagementView.qml</file>
+        <file>fonts/Roboto-Regular.ttf</file>
+        <file>fonts/Roboto-MediumItalic.ttf</file>
+        <file>fonts/Roboto-Medium.ttf</file>
+        <file>fonts/Roboto-LightItalic.ttf</file>
+        <file>fonts/Roboto-Light.ttf</file>
+        <file>fonts/Roboto-Bold.ttf</file>
         <file>icons/arrow9.svg</file>
         <file>icons/arrow10.svg</file>
         <file>icons/pencil.svg</file>
@@ -30,5 +28,11 @@
         <file>icons/calendar.svg</file>
         <file>icons/statistics.png</file>
         <file>icons/task_management.svg</file>
+        <file>icons/triangle.svg</file>
+        <file>icons/color-bucket.svg</file>
+        <file>qml/ManagementView/macroareaList/PopupMacroareaOptions.qml</file>
+        <file>qml/ManagementView/macroareaList/MacroareasList.qml</file>
+        <file>qml/ManagementView/macroareaList/OptionElement.qml</file>
+        <file>qml/ManagementView/macroareaList/PopupInsertText.qml</file>
     </qresource>
 </RCC>

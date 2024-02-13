@@ -25,6 +25,30 @@ ApplicationWindow {
         source: "qrc:/fonts/Roboto-Light.ttf"
     }
 
+    property int currentPage: 0
+
+    function loadPage(page){
+
+        if(page === currentPage){
+            return;
+        }
+
+        stackView.clear();
+        currentPage = page;
+
+        switch(page){
+        case 1:
+            controller.pushWeekView();
+            break;
+        case 2:
+            controller.pushStatsView();
+            break;
+        case 3:
+            controller.pushManagementView();
+            break;
+        }
+    }
+
     Rectangle{
         id: tabBar
 
@@ -54,12 +78,15 @@ ApplicationWindow {
             IconImage{
                 anchors.fill: parent
                 anchors.margins: 5
-                source: "qrc:/icons/icons/calendar.svg"
+                source: "qrc:/icons/calendar.svg"
                 color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
             }
 
             checked: true
-            onClicked: console.log("calendar")
+            onClicked: {
+                loadPage(1);
+            }
+
         }
 
         TabButton {
@@ -78,11 +105,13 @@ ApplicationWindow {
             IconImage{
                 anchors.fill: parent
                 anchors.margins: 5
-                source: "qrc:/icons/icons/statistics.png"
+                source: "qrc:/icons/statistics.png"
                 color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
             }
 
-            onClicked: console.log("stats")
+            onClicked: {
+                loadPage(2);
+            }
         }
 
         TabButton {
@@ -101,11 +130,13 @@ ApplicationWindow {
             IconImage{
                 anchors.fill: parent
                 anchors.margins: 5
-                source: "qrc:/icons/icons/task_management.svg"
+                source: "qrc:/icons/task_management.svg"
                 color: (parent.hovered || parent.checked) ? Universal.accent : Universal.foreground
             }
 
-            onClicked: console.log("management")
+            onClicked: {
+                loadPage(3);
+            }
         }
     }
 
@@ -123,13 +154,8 @@ ApplicationWindow {
         focus: true
 
         Component.onCompleted: {
-            controller.pushWeekView();
+            loadPage(1);
         }
-    }
-
-    Component{
-        id: weekView
-        WeekView{}
     }
 
     Controller{

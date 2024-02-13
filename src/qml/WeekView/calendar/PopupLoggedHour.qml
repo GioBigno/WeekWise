@@ -26,9 +26,6 @@ Popup {
 
     onOpened: {
         editNote.text = note;
-
-        console.log("[popup] date: " + dateCell)
-        console.log("[popup] note: " + note)
     }
 
     Text{

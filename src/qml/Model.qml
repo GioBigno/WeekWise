@@ -78,6 +78,19 @@ Item{
         }
     }
 
+    function addMacroarea(macroarea_name){
+        //newName is dangerous
+        db.execute("INSERT INTO macroareas(macroarea_name, macroarea_color)
+                    values('" + macroarea_name + "', '808080');");
+    }
+
+    function renameMacroarea(macroarea_id, newName){
+        //newName is dangerous
+        db.execute("UPDATE macroareas
+                    SET macroarea_name='" + newName + "'
+                    WHERE macroarea_id=" + macroarea_id + ";");
+    }
+
     function addPlannedHour(date, activity_id){
         db.execute("INSERT INTO logged_hours (activity_id, date_logged, done, note)
                     VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 0, '');");
@@ -162,6 +175,11 @@ Item{
     ListModel{
         id: activities
         //{activity_id, name, macroarea_id, color}
+    }
+
+    ListModel{
+        id: activitiesTree
+        //{macroarea_id, macroarea_name, macroarea_color, activities_list{activity_id, anctivity_name}... }
     }
 
     ListModel{

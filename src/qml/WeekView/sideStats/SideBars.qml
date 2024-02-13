@@ -148,7 +148,7 @@ Item{
                         radius: 4
                         padding: 10
 
-                        icon.source: "qrc:/icons/icons/trash.svg"
+                        icon.source: "qrc:/icons/trash.svg"
                         icon.color: Universal.accent
                         icon.width: parent.height - 2*padding
                         icon.height: parent.height - 2*padding
@@ -178,7 +178,7 @@ Item{
                         radius: 4
                         padding: 10
 
-                        icon.source: "qrc:/icons/icons/pencil.svg"
+                        icon.source: "qrc:/icons/pencil.svg"
                         icon.color: Universal.accent
                         icon.width: parent.height - 2*padding
                         icon.height: parent.height - 2*padding
@@ -195,7 +195,7 @@ Item{
                     }
                 }
 
-                PopupSideStatsNewGoalDetail{
+                PopupNewGoalDetail{
                     id: popupNewGoalDetailEdit
                 }
             }
@@ -214,48 +214,78 @@ Item{
             color: "transparent"
             radius: 8
 
-            Button{
-                id: buttonAddSideStatsProgressBar
+            Rectangle{
+                id: buttonRect
 
                 anchors {
                     bottom: parent.bottom
-                    right: parent.right
-                    rightMargin: 10
+                    left: parent.left
+                    bottomMargin: 20
                 }
 
-                width: parent.height / 1.5
-                height: parent.height / 1.5
-
-                background: Rectangle{
-                    color: Qt.rgba(Universal.foreground.r, Universal.foreground.g, Universal.foreground.b, 0.5  )
-                    opacity: buttonAddSideStatsProgressBar.hovered ? 0.6 : 1
-                    radius: 10
-                }
+                height: 30
+                width: buttonIcon.width + labelNewGoalButton.contentWidth + buttonIcon.anchors.margins + labelNewGoalButton.anchors.margins + 10
+                color: "transparent"
+                radius: 6
 
                 IconImage{
-                    anchors.fill: parent
+                    id: buttonIcon
+
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        left: parent.left
+                    }
+
                     anchors.margins: 5
-                    source: "qrc:/icons/icons/plus.svg"
-                    color: Universal.background
+                    source: "qrc:/icons/plus.svg"
+                    color: Universal.foreground
                 }
 
-                onClicked:{
-                    popupNewGoal.x = 0;
-                    popupNewGoal.y = y;
-                    popupNewGoal.width = x - 5;
-                    popupNewGoalDetail.x = 0;
-                    popupNewGoalDetail.y = y;
-                    popupNewGoalDetail.width = x - 5;
-                    popupNewGoalDetail.height = 130;
-                    popupNewGoal.open();
+                Text{
+                    id: labelNewGoalButton
+
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        left: buttonIcon.right
+                        right: parent.right
+                        margins: 7
+                    }
+
+                    text: qsTr("New Goal")
+                    verticalAlignment: Text.AlignVCenter
+
+                    color: Universal.foreground
+                    font.pointSize: height
+                    font.family: fontLight.font
+                }
+
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onEntered: buttonRect.color = Universal.theme
+                    onExited: buttonRect.color = "transparent"
+
+                    onClicked:{
+                        popupNewGoal.x = 0;
+                        popupNewGoal.y = y;
+                        popupNewGoal.width = 200;
+                        popupNewGoalDetail.x = 0;
+                        popupNewGoalDetail.y = y;
+                        popupNewGoalDetail.width = 200;
+                        popupNewGoalDetail.height = 130;
+                        popupNewGoal.open();
+                    }
                 }
             }
 
-            PopupSideStatsNewGoal{
+            PopupNewGoal{
                 id: popupNewGoal
             }
 
-            PopupSideStatsNewGoalDetail{
+            PopupNewGoalDetail{
                 id: popupNewGoalDetail
             }
         }

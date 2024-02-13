@@ -91,11 +91,11 @@ Item {
         //{activity_id, activity_name, macroarea_color, note, done}
     }
 
-    PopupCalendarNewHour{
+    PopupNewHour{
         id: newHourPopup
     }
 
-    PopupCalendarLoggedHour{
+    PopupLoggedHour{
         id: selectLoggedPopup
     }
 
@@ -152,7 +152,7 @@ Item {
 
                                 if(model.activity_id === -1){
                                     newHourPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
-                                    openPopup(newHourPopup, rectHour.x + mouse.x, rectHour.y + mouse.y, rectHour.width*1.5);
+                                    openPopup(newHourPopup, rectHour.x + mouse.x + 1, rectHour.y + mouse.y, rectHour.width*1.5);
                                 }else{
                                     selectLoggedPopup.dateCell = Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss");
                                     selectLoggedPopup.activity_id = model.activity_id;
@@ -163,10 +163,6 @@ Item {
                                     selectLoggedPopup.width = calendar.width / 2;
                                     selectLoggedPopup.x = calendar.width / 4;
                                     selectLoggedPopup.y = calendar.height / 4;
-
-                                    console.log("[calendar] date: " + Qt.formatDateTime(dateFromIndex(model.index), "yyyy-MM-dd hh:mm:ss"))
-                                    console.log("[calendar] note: " + model.note);
-
                                     selectLoggedPopup.open();
                                 }
                             }
@@ -270,7 +266,7 @@ Item {
 
                 IconImage{
                     anchors.fill: parent
-                    source: "qrc:/icons/icons/arrow10.svg"
+                    source: "qrc:/icons/arrow10.svg"
                     color: Universal.accent
                 }
 
@@ -292,7 +288,7 @@ Item {
 
                 IconImage{
                     anchors.fill: parent
-                    source: "qrc:/icons/icons/arrow9.svg"
+                    source: "qrc:/icons/arrow9.svg"
                     color: Universal.accent
                 }
 

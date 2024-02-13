@@ -18,9 +18,9 @@ functionality ------------------
 
  - "stats" page
 
- - add logged_hours in sideBars statistics
-
  - find a way to configure and synchronize the database
+
+ - fix sql injections
 
  - cmake BDatabase plugin
 
