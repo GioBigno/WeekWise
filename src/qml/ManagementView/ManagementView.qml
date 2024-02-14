@@ -5,7 +5,7 @@ import QtQuick.Controls.Universal 2.12
 import "macroareaList"
 
 Item{
-    id: managmentView
+    id: managementView
 
     Text{
         id: pageTitle
@@ -32,6 +32,4 @@ Item{
             margins: 10
         }
     }
-
-
 }

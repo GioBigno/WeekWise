@@ -34,5 +34,6 @@
         <file>qml/ManagementView/macroareaList/MacroareasList.qml</file>
         <file>qml/ManagementView/macroareaList/OptionElement.qml</file>
         <file>qml/ManagementView/macroareaList/PopupInsertText.qml</file>
+        <file>qml/ManagementView/macroareaList/PopupConfirm.qml</file>
     </qresource>
 </RCC>

@@ -91,6 +91,20 @@ Item{
                     WHERE macroarea_id=" + macroarea_id + ";");
     }
 
+    function deleteMacroarea(macroarea_id){
+        db.execute("DELETE FROM logged_hours
+                    WHERE activity_id IN (SELECT activity_id FROM activities WHERE macroarea_id = " + macroarea_id + ");");
+
+        db.execute("DELETE FROM macroareas
+                    WHERE macroarea_id = " + macroarea_id + ";");
+
+        db.execute("DELETE FROM activities
+                    WHERE macroarea_id = " + macroarea_id + ";");
+
+        db.execute("DELETE FROM planned_macroareas
+                    WHERE macroarea_id = " + macroarea_id + ";");
+    }
+
     function addPlannedHour(date, activity_id){
         db.execute("INSERT INTO logged_hours (activity_id, date_logged, done, note)
                     VALUES (" + activity_id + ", '" + controller.dateToTimestamp(date) +"', 0, '');");

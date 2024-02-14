@@ -18,7 +18,9 @@ Popup {
     }
 
     property int iconsSize: 10
-    property var rename
+    property var renameMacroarea
+    property var deleteMacroarea
+    property var popupDeleteMacroarea
 
     Column {
         id: optionsMenu
@@ -38,7 +40,7 @@ Popup {
             hoveredColor: Universal.foreground
 
             function clicked(mouse){
-                macroareaOptions.rename();
+                macroareaOptions.renameMacroarea();
                 macroareaOptions.close();
             }
         }
@@ -73,8 +75,28 @@ Popup {
             hoveredColor: Universal.foreground
 
             function clicked(mouse){
-                //TODO
+                macroareaOptions.close();
+
+                popupDeleteMacroarea.width = 300;
+                popupDeleteMacroarea.height = 150;
+                popupDeleteMacroarea.text = qsTr("Are you sure you want to delete this Macroareas and all the activities related to it?");
+                popupDeleteMacroarea.fontText = fontLight.font;
+                popupDeleteMacroarea.button1Text = qsTr("Yes");
+                popupDeleteMacroarea.button2Text = qsTr("No");
+                popupDeleteMacroarea.button1Clicked = deleteMacroarea;
+                popupDeleteMacroarea.button2Clicked = nothing;
+                popupDeleteMacroarea.open();
             }
+
+            function deleteMacroarea(){
+                macroareaOptions.deleteMacroarea();
+                popupDeleteMacroarea.close();
+            }
+
+            function nothing(){
+                popupDeleteMacroarea.close();
+            }
+
         }
 
         OptionElement{
@@ -93,7 +115,5 @@ Popup {
                 //TODO
             }
         }
-
-
     }
 }

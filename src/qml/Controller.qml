@@ -167,6 +167,19 @@ Item{
         weekView.weekTotalHoursStatsChanged();
     }
 
+    function deleteMacroarea(macroarea_id){
+        modelLogic.deleteMacroarea(macroarea_id);
+
+        //update
+        modelLogic.fillMacroareas();
+        modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
+        modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
+
+        //notify
+        weekView.weekPlannedLoggedHoursChanged();
+        weekView.weekTotalHoursStatsChanged();
+    }
+
     function addPlannedHour(date, activity_id){
         modelLogic.addPlannedHour(date, activity_id);
 

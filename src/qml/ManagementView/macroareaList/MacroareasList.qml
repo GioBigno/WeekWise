@@ -32,10 +32,15 @@ Item{
 
                         color: "transparent"
 
-                        function rename(){
+                        function renameMacroarea(){
                             macroareaMouseArea.enabled = false;
                             macroareaTitle.readOnly = false;
                             macroareaTitle.selectByMouse = true;
+                            macroareaTitle.focus = true;
+                        }
+
+                        function deleteMacroarea(){
+                            controller.deleteMacroarea(model.id);
                         }
 
                         IconImage{
@@ -97,7 +102,8 @@ Item{
 
                                                popupMacroareaOptions.x = pos.x;
                                                popupMacroareaOptions.y = pos.y;
-                                               popupMacroareaOptions.rename = macroareaRect.rename;
+                                               popupMacroareaOptions.renameMacroarea = macroareaRect.renameMacroarea;
+                                               popupMacroareaOptions.deleteMacroarea = macroareaRect.deleteMacroarea;
 
                                                popupMacroareaOptions.open();
                                            } else if (mouse.button === Qt.LeftButton) {
@@ -194,8 +200,8 @@ Item{
                         popupInsertText.text = qsTr("Insert the name of the new Macroarea");
                         popupInsertText.fontText = fontLight.font
                         popupInsertText.callback = controller.addMacroarea;
-                        popupInsertText.x = ((managmentView.width - popupInsertText.width) / 2) - item.x
-                        popupInsertText.y = ((managmentView.height - popupInsertText.height) / 2) - item.y
+                        popupInsertText.x = ((managementView.width - popupInsertText.width) / 2) - item.x
+                        popupInsertText.y = ((managementView.height - popupInsertText.height) / 2) - item.y
                         popupInsertText.open();
                     }
                 }
@@ -204,12 +210,20 @@ Item{
         }
     }
 
-    PopupMacroareaOptions{
-        id: popupMacroareaOptions
-    }
-
     PopupInsertText{
         id: popupInsertText
     }
 
+    PopupConfirm{
+        id: poupupConfirm
+
+        x: ((managementView.width - width) / 2) - item.x;
+        y: ((managementView.height - height) / 2) - item.y;
+    }
+
+    PopupMacroareaOptions{
+        id: popupMacroareaOptions
+
+        popupDeleteMacroarea:  poupupConfirm
+    }
 }
