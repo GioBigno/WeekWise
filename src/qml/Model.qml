@@ -29,6 +29,7 @@ Item{
     }
 
     function fillWeekPlannedLoggedHours(firstDay, lastDay){
+
         let result = db.execute("SELECT lh.date_logged, lh.activity_id, lh.note, lh.done, a.activity_name, ma.macroarea_color
                                  FROM logged_hours lh
                                  JOIN activities a ON lh.activity_id = a.activity_id

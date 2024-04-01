@@ -20,6 +20,7 @@ Item{
     function pushWeekView(){
         modelLogic.fillMacroareas();
         modelLogic.fillActivities();
+
         modelLogic.fillWeekPlannedLoggedHours(firstDay, nextDay(lastDay));
         modelLogic.fillWeekTotalHoursStats(firstDay, nextDay(lastDay));
 
@@ -85,7 +86,8 @@ Item{
         d.setMinutes(0);
         d.setSeconds(0);
         d.setMilliseconds(0);
-        return new Date(d.setDate(diff));
+        var ret = new Date(d.setDate(diff));
+        return ret;
     }
 
     function lastDayOfTheWeek(day){
@@ -95,12 +97,19 @@ Item{
         d.setMinutes(0);
         d.setSeconds(0);
         d.setMilliseconds(0);
-        return new Date(d.setDate(diff));
+        let ret = new Date(d.setDate(diff));
+        return ret;
     }
 
     function nextDay(day){
         let d = new Date(day);
-        d.setUTCDate(d.getUTCDate() + 1);
+        d.setDate(d.getDate() + 1);
+        return d;
+    }
+
+    function prevDay(day){
+        let d = new Date(day);
+        d.setDate(d.getDate() - 1);
         return d;
     }
 
@@ -118,7 +127,14 @@ Item{
     // data ------------------------------------------------------------
 
     function prevWeek(){
-        firstDay = new Date(firstDay.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+        console.log(firstDay.getTime());
+
+        let temp = firstDay;
+        for(let i=0; i<7; i++)
+            temp = prevDay(temp);
+
+        firstDay = temp;
         lastDay = lastDayOfTheWeek(firstDay);
 
         //update

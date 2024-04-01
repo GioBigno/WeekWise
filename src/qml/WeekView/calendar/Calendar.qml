@@ -18,8 +18,10 @@ Item {
         let d = new Date(controller.firstDay);
         let indexDay = indexCell % 7;
         let indexHour = Math.trunc(indexCell / 7) + startTime;
-        let diffDay = d.getDate() + indexDay;
-        d.setDate(diffDay);
+
+        for(let i=0; i<indexDay; i++)
+            d = controller.nextDay(d);
+
         d.setHours(indexHour);
         d.setMinutes(0);
         d.setSeconds(0);
@@ -199,7 +201,7 @@ Item {
                     }
                 }
 
-                text: model.day.substring(0,3) + "  " + (controller.firstDay.getDate() + model.index)
+                text: model.day.substring(0,3) + "  " + (dateFromIndex(model.index).getDate())
 
                 font.pixelSize: 22
                 font.family: fontMedium.name
